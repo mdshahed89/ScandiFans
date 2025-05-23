@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import PageContent from "./Content"
 
 const page = () => {
   return (
-    <div>
+    <Suspense fallback={<div className="text-white text-center">Loading...</div>}>
       <PageContent />
-    </div>
+    </Suspense>
   )
 }
 
