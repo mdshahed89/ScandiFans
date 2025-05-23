@@ -43,7 +43,7 @@ const Page = () => {
               className="flex items-center gap-2 bg-white dark:bg-black rounded-lg px-8 py-2 text-[1.1rem] text-[#bebebe] "
             >
               <BsFillSignIntersectionSideFill className=" text-[1.3rem] " />
-              <span>Sugn In</span>
+              <span>Sign In</span>
             </Link>
           </div>
         </div>
@@ -76,7 +76,7 @@ const Page = () => {
                   />
                   <div
                     onClick={handleClick}
-                    className=" flex items-center gap-2 bg-[#4ED7F1] text-[#000] px-6 py-2 rounded-md "
+                    className=" flex items-center gap-2 bg-[#4ED7F1] text-[#000] px-6 py-2 rounded-md cursor-pointer "
                   >
                     <span className=" text-nowrap ">Get Started</span>
                     <MdArrowForwardIos className=" mt-1 " />
@@ -147,8 +147,8 @@ const Step1 = ({ email }: { email: string }) => {
         Create a password to start your membership
       </h2>
       <div className=" text-[1.3rem] ">
-        <p>You're almost there! Just a couple more steps to go.</p>
-        <p>Don't worry — we'll keep it quick!</p>
+        <p>You&apos;re almost there! Just a couple more steps to go.</p>
+        <p>Don&apos;t worry — we&apos;ll keep it quick!</p>
       </div>
 
       <form onSubmit={handleSubmit} className=" mt-[2rem] max-w-[25rem] space-y-4 ">

@@ -116,7 +116,7 @@ const HomeSidebar = () => {
                 {children}
               </div>
             )}
-            renderThumb={({ props, index }) => {
+            renderThumb={({ props }) => {
               const { key, ...rest } = props;
               return (
                 <div
