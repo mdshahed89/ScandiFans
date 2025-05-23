@@ -7,7 +7,7 @@ import { BsFillSignIntersectionSideFill } from "react-icons/bs";
 import { MdArrowForwardIos } from "react-icons/md";
 import StepsIcon from "@/assets/StepsIcon.png";
 import Image from "next/image";
-import { RiArrowGoBackFill, RiFeedbackLine } from "react-icons/ri";
+import { RiArrowGoBackFill } from "react-icons/ri";
 
 const Page = () => {
   const [email, setEmail] = useState("");
