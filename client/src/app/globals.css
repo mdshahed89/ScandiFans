@@ -20,13 +20,14 @@
 .full-bg::before {
   content: "";
   position: absolute;
-  top: 27%;
+  height: 100vh;
+  top: 5%;
   right: 0;
   bottom: 0;
-  left: -2%;
+  left: 0;
   background-image: url('/BackgroundLogo.png');
-  background-size: cover;
-  background-position: left center;
+  background-size: contain;
+  background-position: center;
   background-repeat: no-repeat;
   opacity: 0.5;
   pointer-events: none; 
@@ -55,7 +56,7 @@
   left: 0;
   background-image: url('/LoginBg.jpg');
   background-size: cover;
-  background-position: left center;
+  background-position: center;
   background-repeat: no-repeat;
   opacity: 0.2;
   pointer-events: none; 

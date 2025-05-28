@@ -19,7 +19,7 @@ export const SignOutButton = () => {
         logout()
         router.push("/")
       }}
-      className="flex items-center gap-2 bg-[#800020] cursor-pointer text-[#fff]  transition-colors duration-300 ease-in-out rounded-lg px-8 py-2 text-[1.1rem]  "
+      className="flex items-center gap-2 bg-[#800020] cursor-pointer text-[#fff]  transition-colors duration-300 ease-in-out rounded-lg px-5 md:px-8 py-2 text-[1.1rem]  "
     >
       <GoSignOut className=" text-[1.3rem] " />
       <span>Sign Out</span>

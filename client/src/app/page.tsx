@@ -43,6 +43,9 @@ export default function Home() {
   const [optionsOpen, setOptionsOpen] = useState(false);
   const [selectedSort, setSelectedSort] = useState("Sory by");
   const optionsRef = useRef<HTMLDivElement | null>(null);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleSidebar = () => setIsOpen(!isOpen);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -116,7 +119,7 @@ export default function Home() {
       if (filters.maxAge) query.append("maxAge", filters.maxAge);
       if (filters.identity.length > 0) {
         filters.identity.forEach((value) => {
-          query.append("identity", value); // Not identity[] unless your backend expects that
+          query.append("identity", value);
         });
       }
 
@@ -148,11 +151,17 @@ export default function Home() {
   return (
     <div>
       <Header />
-      <div className=" bg-[#000000] text-[#fff] min-h-[100vh] pt-[5rem] full-bg " >
-        <div className=" max-w-[1400px] mx-auto pt-[4rem] flex gap-20 ">
-          <HomeSidebar filters={filters} setFilters={setFilters} />
-          <div className=" w-2/3 relative ">
-            <div className=" flex justify-end ">
+      <div className=" bg-[#000000] text-[#fff] min-h-[100vh] pt-[5rem] full-bg ">
+        <div className=" max-w-[1400px] mx-auto pt-[4rem] flex gap-10 lg:gap-20 px-3 ">
+          <HomeSidebar filters={filters} setFilters={setFilters} isOpen={isOpen} setIsOpen={setIsOpen} toggleSidebar={toggleSidebar} />
+          <div className=" w-full md:w-2/3 relative ">
+            <div className=" flex justify-between md:justify-end ">
+
+              <div onClick={toggleSidebar} className="  cursor-pointer md:hidden flex items-center gap-2 bg-[#800020] px-5 py-2 rounded-lg ">
+                <TbColorFilter className=" text-[1.1rem] " />
+                <span>Filter</span>
+              </div>
+
               <div className="w-[10rem] relative text-center " ref={optionsRef}>
                 <div
                   className="w-full px-4 py-2 border-2 border-gray-700 rounded-md cursor-pointer flex items-center justify-center gap-3 text-[#d1d1d1] "
@@ -183,7 +192,7 @@ export default function Home() {
                 )}
               </div>
             </div>
-            <div className=" mt-[.8rem] ">
+            <div className=" mt-[2rem] md:mt-[.8rem] ">
               <Profiles users={users} />
             </div>
           </div>
@@ -202,10 +211,11 @@ import { FiVideo } from "react-icons/fi";
 import Link from "next/link";
 import { AiOutlineCamera } from "react-icons/ai";
 import { FaRegHeart } from "react-icons/fa";
+import { TbColorFilter } from "react-icons/tb";
 
 const Profiles = ({ users }: ProfilesProps) => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-2 ">
+    <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 ">
       {users.map((user) => (
         <div
           key={user._id}
@@ -216,7 +226,7 @@ const Profiles = ({ users }: ProfilesProps) => {
               src={user.profileImg || ProfileImg}
               alt="Profile Img"
               fill
-              className=" w-full h-full object-cover "
+              className=" w-full h-full object-cover object-center "
             />
           </div>
           <div className=" bg-[#20050c] pt-1 px-3 pb-3 ">

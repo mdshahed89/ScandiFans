@@ -19,7 +19,6 @@
 
 // export default dbConnect;
 
-
 import mongoose from "mongoose";
 
 let isConnected = false;
@@ -27,13 +26,22 @@ let isConnected = false;
 const dbConnect = async () => {
   if (isConnected) return;
 
+  const uri =
+      process.env.NODE_ENV === "development"
+        ? process.env.MONGODB_URI
+        : "mongodb+srv://RealEstate:RealEstate@realestate.n8dpbzv.mongodb.net/ScandiFans?retryWrites=true&w=majority&appName=RealEstate";
+
+    // console.log(uri)
+    
+
   try {
-    const db = await mongoose.connect("mongodb+srv://RealEstate:RealEstate@realestate.n8dpbzv.mongodb.net/ScandiFans?retryWrites=true&w=majority&appName=RealEstate", {
-      dbName: "ScandiFans",
-      // useNewUrlParser: true,
-      // useUnifiedTopology: true,
-      serverSelectionTimeoutMS: 10000, 
-    });
+    const db = await mongoose.connect(
+      uri,
+      {
+        dbName: "ScandiFans",
+        serverSelectionTimeoutMS: 10000,
+      }
+    );
 
     isConnected = true;
     console.log("MongoDB connected successfully");

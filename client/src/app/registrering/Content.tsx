@@ -49,7 +49,7 @@ const Page = () => {
 
   return (
     <div className=" bg-gradient-to-tr from-[#000] via-[#000] to-[#470012] min-h-screen h-full text-[#fff] ">
-      <div className=" max-w-[1400px] mx-auto h-full ">
+      <div className=" max-w-[1400px] mx-auto h-full px-3 ">
         <div className=" h-[5rem] flex items-center justify-between  ">
           <Link href={`/`} className=" text-[2rem] ">
             <Image src={Logo} alt="Logo" className=" w-[10rem] mt-5 object-contain " />
@@ -81,23 +81,23 @@ const Page = () => {
             <Step1 email={valueOfEmail} />
           ) : (
             <div className=" text-center max-w-[55rem] space-y-2 ">
-              <div>
-                <h2 className=" text-[3.5rem] font-semibold leading-tight ">
+              <div className="  space-y-2 ">
+                <h2 className=" text-[2rem] md:text-[2.5rem] lg:text-[3.5rem] font-semibold leading-tight ">
                 Boost your profile with ScandiFans Promotion Packages
               </h2>
-              <h4 className=" text-[1.7rem] ">Start from 499 Nok</h4>
+              <h4 className=" text-[1.3rem] md:text-[1.5rem] lg:text-[1.7rem] text-[#cac8c6] ">Start from 499 Nok</h4>
               </div>
 
               <div className=" py-[2rem] flex justify-center ">
-                <IoRocketOutline className=" text-[4rem] animate-rocket text-[#800020] " />
+                <IoRocketOutline className=" text-[3rem] md:text-[4rem] animate-rocket text-[#800020] " />
               </div>
 
               <div className=" space-y-3 ">
-                <h4 className=" text-[1.3rem] ">
+                <h4 className=" text-[1.1rem] md:text-[1.3rem] ">
                   Ready to Promote your profile? Enter your email to create your
                   membership.
                 </h4>
-                <div className=" text-[1.4rem] flex items-center gap-2 mx-auto h-[3.5rem] ">
+                <div className=" text-[1.4rem] flex items-center gap-2 mx-auto h-[3.5rem] md:flex-row flex-col ">
                   <input
                     type="email"
                     value={email}
@@ -109,7 +109,7 @@ const Page = () => {
                   />
                   <div
                     onClick={handleClick}
-                    className=" group flex items-center justify-center gap-2 bg-[#800020] border-2 border-[#800020] text-[#fff] w-[18rem] py-2 rounded-md cursor-pointer "
+                    className=" group flex items-center justify-center gap-2 bg-[#800020] border-2 border-[#800020] text-[#fff] w-full md:w-[18rem] py-2 rounded-md cursor-pointer "
                   >
                     <span className=" text-nowrap ">Get Started</span>
                     <MdArrowForwardIos className=" mt-[2px] group-hover:translate-x-2 transition-all duration-300 ease-in-out " />
@@ -190,10 +190,10 @@ const Steps = ({ email }: { email: string }) => {
         />
       </div>
       <div className=" max-w-[35rem] text-center mx-auto mt-[2rem] ">
-        <h3 className=" text-[3rem] font-bold leading-tight ">
+        <h3 className=" text-[2rem] lg:text-[3rem] font-bold leading-tight ">
           Finish setting up your account with 3 steps
         </h3>
-        <div className=" text-[1.5rem] text-[#cccccc] mt-[1rem] ">
+        <div className=" text-[1.3rem] md:text-[1.5rem] text-[#cccccc] mt-[1rem] ">
           <p>Scandify is personalized for you.</p>
           <p>Complete all the steps to promote your profile</p>
         </div>
@@ -202,7 +202,7 @@ const Steps = ({ email }: { email: string }) => {
             href={`/registrering?query=password&email=${encodeURIComponent(
               email
             )}`}
-            className=" bg-[#800020] text-[#F4F1ED] px-16 py-2 rounded-md w-fit font-medium text-[1.1rem] mx-auto cursor-pointer "
+            className=" bg-[#800020] border-2 border-[#800020] text-[#F4F1ED] px-16 py-2 rounded-md w-fit font-medium text-[1.1rem] mx-auto cursor-pointer "
           >
             Next
           </Link>
@@ -309,10 +309,10 @@ const Step1 = ({ email }: { email: string }) => {
       <div className=" text-[1.4rem] text-[#d1d1d1] font-semibold ">
         Step 1 of 3
       </div>
-      <h2 className=" text-[3rem] font-bold max-w-[35rem] leading-tight mt-[.5rem] mb-[1.5rem] ">
+      <h2 className=" text-[2rem] lg:text-[3rem] font-bold max-w-[35rem] leading-tight mt-[.5rem] mb-[1.5rem] ">
         Create a password to start your membership
       </h2>
-      <div className=" text-[1.5rem] ">
+      <div className=" text-[1.3rem] lg:text-[1.5rem] ">
         <p>You&apos;re almost there! Just a couple more steps to go.</p>
         <p>Don&apos;t worry — we&apos;ll keep it quick!</p>
       </div>

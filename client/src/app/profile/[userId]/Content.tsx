@@ -70,9 +70,9 @@ const Content = ({ user }: ContentProps) => {
 
   return (
     <div className=" bg-[#000000] min-h-screen h-full text-[#fff] ">
-      <div className=" max-w-[1400px] mx-auto h-full ">
-        <div className=" fixed bg-[#000000] left-0 top-0 w-full border-b border-[#353535] ">
-          <div className=" max-w-[1400px] mx-auto h-[5rem] flex items-center justify-between  ">
+      <div className=" max-w-[1400px] mx-auto h-full px-3 ">
+        <div className=" fixed bg-[#000000] left-0 top-0 w-full border-b border-[#353535] z-50 ">
+          <div className=" max-w-[1400px] px-3 mx-auto h-[5rem] flex items-center justify-between  ">
             <Link href={`/`} className=" text-[2rem] ">
               <Image
                 src={Logo}
@@ -83,17 +83,23 @@ const Content = ({ user }: ContentProps) => {
             <div className=" flex items-center gap-2 ">
               <Link
                 href={`/`}
-                className="flex items-center gap-2 bg-[#800020] text-[#fff]  transition-colors duration-300 ease-in-out rounded-lg px-8 py-2 text-[1.1rem]  "
+                className=" hidden md:flex items-center gap-2 bg-[#800020] text-[#fff]  transition-colors duration-300 ease-in-out rounded-lg px-5 md:px-8 py-2 text-[1.1rem]  "
               >
                 <RiHome9Line className=" text-[1.3rem] " />
                 <span>Home</span>
+              </Link>
+              <Link
+                href={`/`}
+                className=" md:hidden flex items-center gap-2 bg-[#800020] text-[#fff]  transition-colors duration-300 ease-in-out rounded-full px-3 py-3 text-[1.1rem]  "
+              >
+                <RiHome9Line className=" text-[1.3rem] " />
               </Link>
               <SignOutButton />
             </div>
           </div>
         </div>
 
-        <div className="  flex border-x border-[#353535]  min-h-[100vh]">
+        <div className="  flex md:flex-row flex-col 2xl:border-x border-[#353535]  min-h-[100vh]">
           <AccountManagement formData={formData} setFormData={setFormData} />
           <AccountInformation formData={formData} setFormData={setFormData} />
         </div>
@@ -404,7 +410,7 @@ const AccountManagement: React.FC<AccountManagementProps> = ({
   };
 
   return (
-    <div className=" pt-[7rem] w-full max-w-[25rem] border-r border-[#353535] px-[2rem] pb-[2rem] ">
+    <div className=" pt-[7rem] w-full md:max-w-[20rem] lg:max-w-[25rem] md:border-r border-[#353535] md:pr-3 lg:pl-[1.25rem] lg:pr-[2rem] pb-[2rem] ">
       <h4>Account Management</h4>
 
       <div className=" relative mt-[2rem] bg-[#9b1c1cb7] p-[.5rem] rounded-lg ">
@@ -432,7 +438,7 @@ const AccountManagement: React.FC<AccountManagementProps> = ({
           <FaSave />
           <span>Save</span>
         </div>
-        <div className=" w-full h-[20rem] relative rounded-lg ">
+        <div className=" w-full h-[18rem] md:h-[15rem] lg:h-[20rem] relative rounded-lg ">
           <Image
             src={formData.profileImg || ProfileImg}
             alt="ProfileImg"
@@ -726,7 +732,7 @@ const AccountInformation: React.FC<AccountManagementProps> = ({
   return (
     <form
       onSubmit={handleSubmit}
-      className=" pt-[7rem] pb-[5rem] px-[2rem] w-full "
+      className=" pt-[2rem] md:pt-[7rem] pb-[2rem] md:pb-[5rem] md:pl-3 lg:pl-[2rem] lg:pr-[1.25rem] w-full "
     >
       <h3>About me</h3>
 

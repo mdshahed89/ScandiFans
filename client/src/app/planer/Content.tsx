@@ -67,7 +67,7 @@ const Page = () => {
 
   return (
     <div className=" bg-gradient-to-tr from-[#000] via-[#000] to-[#470012] min-h-screen h-full text-[#fff] ">
-      <div className=" max-w-[1400px] mx-auto h-full ">
+      <div className=" max-w-[1400px] mx-auto h-full px-3 ">
         <div className=" h-[5rem] flex items-center justify-between  ">
           <Link href={`/`} className=" text-[2rem] ">
             <Image
@@ -117,7 +117,7 @@ const MakePayment: React.FC<MakePaymentProps> = ({
   const { userData } = useData();
 
   return (
-    <div className=" max-w-[1400px] mx-auto leading-tight flex ">
+    <div className=" max-w-[1400px] mx-auto leading-tight flex gap-5 md:flex-row flex-col ">
       <div className=" flex-1 ">
         <div className=" flex items-center gap-4 ">
           <Link
@@ -133,7 +133,7 @@ const MakePayment: React.FC<MakePaymentProps> = ({
           <div className=" text-[1.2rem] text-[#d1d1d1] font-semibold ">
             Step 3 of 3
           </div>
-          <h3 className=" text-[1.7rem] font-semibold leading-tight text-[#F4F1ED] ">
+          <h3 className=" text-[1.5rem] lg:text-[1.7rem] font-semibold leading-tight text-[#F4F1ED] ">
             Set up your credit or debit card
           </h3>
         </div>
@@ -141,10 +141,10 @@ const MakePayment: React.FC<MakePaymentProps> = ({
         <div className=" mt-[2rem] ">
           <div className=" font-semibold text-[#c5c5c5] ">Subscription Fee</div>
           <div className=" flex items-center gap-3 mt-2 ">
-            <div className=" text-[2.5rem] font-bold text-[#F4F1ED] ">
+            <div className=" text-[2rem] lg:text-[2.5rem] font-bold text-[#F4F1ED] ">
               Nok {planPrice}
             </div>
-            <div className=" text-lg leading-none space-y-1 font-medium text-[#d6d6d6] ">
+            <div className=" lg:text-lg leading-none space-y-1 font-medium text-[#d6d6d6] ">
               <div>For</div>
               <div>{planDuration} Days</div>
             </div>
@@ -152,8 +152,8 @@ const MakePayment: React.FC<MakePaymentProps> = ({
         </div>
       </div>
 
-      <div className=" flex-1  px-[2rem] ">
-        <div className=" max-w-[30rem] ">
+      <div className=" w-full md:flex-1  lg:px-[2rem] md:pt-0 pt-[4rem] ">
+        <div className=" w-full md:max-w-[30rem] ">
           <div className=" space-y-7 ">
             <h3 className=" text-[1.2rem] font-medium ">Contact Information</h3>
             <div className=" flex items-center border-2 border-[#bdbdbd] bg-[#4ED7F1]/10 rounded-md py-2 px-3 gap-16 w-full ">
@@ -189,10 +189,10 @@ const Overview = () => {
         />
       </div>
       <div className=" max-w-[30rem] text-center mx-auto mt-[2rem] ">
-        <div className=" text-[1.5rem] text-[#d1d1d1] font-semibold ">
+        <div className=" text-[1.3rem] lg:text-[1.5rem] text-[#d1d1d1] font-semibold ">
           Step 2 of 3
         </div>
-        <h3 className=" text-[3rem] font-bold leading-tight text-[#F4F1ED] ">
+        <h3 className=" text-[2rem] lg:text-[3rem] font-bold leading-tight text-[#F4F1ED] ">
           Choose your plan
         </h3>
       </div>
@@ -312,24 +312,39 @@ const Plans: React.FC<PlansProps> = ({ selectedPlan, setSelectedPlan }) => {
     slidesToShow: 4,
     swipeToSlide: true,
     arrows: false,
-    // afterChange: function(index) {
-    //   console.log(
-    //     `Slider Changed to: ${index + 1}, background: #222; color: #bada55`
-    //   );
-    // }
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
   };
 
   return (
-    <div className=" pt-[5rem] ">
+    <div className=" pt-[2rem] lg:pt-[5rem] ">
       <div className=" text-center ">
         <div className=" text-[1.5rem] text-[#d1d1d1] font-semibold ">
           Step 3 of 3
         </div>
         <div className=" max-w-[50rem] mx-auto ">
-          <h2 className=" text-[3rem] font-bold  leading-tight mt-[.5rem] mb-[1.5rem] ">
+          <h2 className=" text-[2rem] lg:text-[3rem] font-bold  leading-tight mt-[.5rem] mb-[1.5rem] ">
             Boost your profile with ScandiFans Promotion Packages
           </h2>
-          <p className=" text-lg ">
+          <p className=" lg:text-lg ">
             Want more traffic, visibility, and subscribers? Our promotion
             packages are designed to push your profile to the top of ScandiFans
             — making you more discoverable and increasing your chances of

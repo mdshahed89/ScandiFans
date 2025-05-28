@@ -124,7 +124,7 @@ const Page = () => {
 
   return (
     <div className=" bg-[#000000] min-h-screen h-full text-[#fff] ligin-bg ">
-      <div className=" max-w-[1400px] mx-auto h-full ">
+      <div className=" max-w-[1400px] mx-auto h-full px-3 ">
         <div className=" h-[5rem] flex items-center justify-between  ">
           <Link href={`/`} className=" text-[2rem] ">
             <Image

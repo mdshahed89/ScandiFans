@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { BiMessageRoundedDots } from "react-icons/bi";
 import { BsCalendar3 } from "react-icons/bs";
+import { FaXmark } from "react-icons/fa6";
 import { RiApps2Line } from "react-icons/ri";
 import { Range, getTrackBackground } from "react-range";
 
@@ -18,28 +19,35 @@ type Filters = {
 interface HomeSidebarProps {
   filters: Filters;
   setFilters: React.Dispatch<React.SetStateAction<Filters>>;
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  toggleSidebar: () => void;
 }
 
-const HomeSidebar: React.FC<HomeSidebarProps> = ({ filters, setFilters }) => {
+const HomeSidebar: React.FC<HomeSidebarProps> = ({
+  filters,
+  setFilters,
+  isOpen,
+  setIsOpen,
+  toggleSidebar,
+}) => {
   const MIN = 18;
   const MAX = 69;
 
   const options: string[] = [
-  "Man",
-  "Woman",
-  "Non-binary",
-  "Transsexual",
-  "BDSM",
-  "Gay",
-  "Lesbian",
-  "Fetish",
-  "Other",
-];
-
+    "Man",
+    "Woman",
+    "Non-binary",
+    "Transsexual",
+    "BDSM",
+    "Gay",
+    "Lesbian",
+    "Fetish",
+    "Other",
+  ];
 
   const [toggles, setToggles] = useState<Record<string, boolean>>({});
   const [values, setValues] = useState<number[]>([MIN, MAX]);
-
 
   useEffect(() => {
     setFilters((prev) => ({
@@ -49,7 +57,6 @@ const HomeSidebar: React.FC<HomeSidebarProps> = ({ filters, setFilters }) => {
       page: 1,
     }));
   }, [values, setFilters]);
-
 
   const handleNationalityClick = (value: string) => {
     setFilters((prev) => ({
@@ -85,16 +92,15 @@ const HomeSidebar: React.FC<HomeSidebarProps> = ({ filters, setFilters }) => {
   //   }));
   // };
 
-//   const handleAgeChange = (newValues: number[]) => {
-//   setValues(newValues); 
-//   setFilters((prev) => ({
-//     ...prev,
-//     minAge: String(newValues[0]),
-//     maxAge: String(newValues[1]),
-//     page: 1,
-//   }));
-// };
-
+  //   const handleAgeChange = (newValues: number[]) => {
+  //   setValues(newValues);
+  //   setFilters((prev) => ({
+  //     ...prev,
+  //     minAge: String(newValues[0]),
+  //     maxAge: String(newValues[1]),
+  //     page: 1,
+  //   }));
+  // };
 
   const nationalities = [
     "Norway",
@@ -108,10 +114,23 @@ const HomeSidebar: React.FC<HomeSidebarProps> = ({ filters, setFilters }) => {
   // console.log(values);
 
   return (
-    <div className=" w-1/3 pt-1 ">
-      <div className=" flex items-center gap-3 text-[1.2rem] text-[#F4F1ED] ">
-        <BiMessageRoundedDots className=" mt-1 text-[1.5rem] " />
-        <span>Nasjonalitet</span>
+    <div
+      className={` md:relative fixed top-0 left-0 z-[60] md:bg-transparent bg-[#000] w-[20rem] md:px-0 px-3 md:h-auto h-[100vh] md:w-1/3 pt-[9rem] md:pt-1 transition-transform duration-300 ${
+        isOpen ? "translate-x-0" : "-translate-x-full"
+      } md:translate-x-0 `}
+    >
+      <div className=" flex items-center justify-between ">
+        <div className=" flex items-center gap-3 text-[1.2rem] text-[#F4F1ED] ">
+          <BiMessageRoundedDots className=" mt-1 text-[1.5rem] " />
+          <span>Nasjonalitet</span>
+        </div>
+
+        <div
+          onClick={toggleSidebar}
+          className=" md:hidden flex p-3 rounded-full text-[#F4F1ED] bg-[#800020] shadow-inner text-[1.2rem] "
+        >
+          <FaXmark />
+        </div>
       </div>
       <div className="flex items-center flex-wrap gap-2 mt-[1.5rem] text-[#cac8c6]">
         {nationalities.map((nation) => (
