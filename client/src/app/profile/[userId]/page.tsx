@@ -1,11 +1,4 @@
-import React from "react";
 import Content from "./Content";
-
-interface PageProps {
-  params: {
-    userId: string;
-  };
-}
 
 const getUser = async (userId: string) => {
   const res = await fetch(
@@ -20,12 +13,11 @@ const getUser = async (userId: string) => {
     return null;
   }
 
-  return res.json(); // Make sure this returns something like { user: ... }
+  return res.json(); // Expecting { user: ... }
 };
 
-const Page = async ({ params }: PageProps) => {
+export default async function Page({ params }: { params: { userId: string } }) {
   const { userId } = params;
-
   const data = await getUser(userId);
 
   if (!data?.user) {
@@ -37,6 +29,4 @@ const Page = async ({ params }: PageProps) => {
       <Content user={data.user} />
     </div>
   );
-};
-
-export default Page;
+}
