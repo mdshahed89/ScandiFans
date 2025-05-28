@@ -20,7 +20,7 @@ import {
 } from "@stripe/react-stripe-js";
 import { SignOutButton } from "@/utils/Util";
 import Slider from "react-slick";
-import Logo from "@/assets/Logo.png"
+import Logo from "@/assets/Logo.png";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -41,7 +41,7 @@ type PlansProps = {
 };
 
 const Page = () => {
-  const { userData } = useData();
+  // const { userData } = useData();
   const [selectedPlan, setSelectedPlan] = useState({
     day: 7,
     price: 449,
@@ -70,7 +70,11 @@ const Page = () => {
       <div className=" max-w-[1400px] mx-auto h-full ">
         <div className=" h-[5rem] flex items-center justify-between  ">
           <Link href={`/`} className=" text-[2rem] ">
-            <Image src={Logo} alt="Logo" className=" w-[10rem] mt-5 object-contain " />
+            <Image
+              src={Logo}
+              alt="Logo"
+              className=" w-[10rem] mt-5 object-contain "
+            />
           </Link>
           <SignOutButton />
         </div>
@@ -280,7 +284,7 @@ const Plans: React.FC<PlansProps> = ({ selectedPlan, setSelectedPlan }) => {
       text: "Best long-term investment",
     },
   ];
-  const [durationOpen, setDurationOpen] = useState(false);
+  // const [durationOpen, setDurationOpen] = useState(false);
 
   const durationRef = useRef<HTMLDivElement | null>(null);
 
@@ -290,7 +294,7 @@ const Plans: React.FC<PlansProps> = ({ selectedPlan, setSelectedPlan }) => {
         durationRef.current &&
         !durationRef.current.contains(event.target as Node)
       ) {
-        setDurationOpen(false);
+        // setDurationOpen(false);
       }
     };
 
@@ -460,7 +464,7 @@ const Form: React.FC<MakePaymentProps> = ({ planDuration, planPrice }) => {
   const elements = useElements();
   const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedCountry, setSelectedCountry] = useState("Norway");
+  // const [selectedCountry, setSelectedCountry] = useState("Norway");
   const countryRef = useRef<HTMLDivElement | null>(null);
   const [success, setSuccess] = useState(false);
   const [formData, setFormData] = useState({
@@ -824,11 +828,17 @@ const Form: React.FC<MakePaymentProps> = ({ planDuration, planPrice }) => {
           message: "Payment confirmed successfully!!",
         });
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Unexpected error:", err);
+
+      let message = "Something went wrong. Please try again later.";
+      if (err instanceof Error) {
+        message = err.message;
+      }
+
       setError({
         type: "ERROR",
-        message: "Something went wrong. Please try again later.",
+        message,
       });
     } finally {
       setIsLoading(false);

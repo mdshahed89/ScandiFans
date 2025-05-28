@@ -6,20 +6,20 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { GiCheckMark } from "react-icons/gi";
 import { RiHome9Line } from "react-icons/ri";
-import Logo from "@/assets/Logo.png"
+import Logo from "@/assets/Logo.png";
 import Image from "next/image";
 
 const Page = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [toastMessage, setToastMessage] = useState({
     type: "",
     message: "",
   });
   const router = useRouter();
-  const { userData, setUserData } = useData();
+  const { setUserData } = useData();
 
   const validateEmail = (email: string) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -73,7 +73,7 @@ const Page = () => {
         type: "",
         message: "",
       });
-      setIsLoading(true);
+      // setIsLoading(true);
 
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/login`,
@@ -106,13 +106,19 @@ const Page = () => {
         });
         router.push(`/profile/${data?.user?._id}`);
       }, 2000);
-    } catch (err: any) {
+    } catch (err: unknown) {
+      let message = "Something went wrong";
+
+      if (err instanceof Error) {
+        message = err.message;
+      }
+
       setToastMessage({
         type: "ERROR",
-        message: err.message || "Something went wrong",
+        message,
       });
     } finally {
-      setIsLoading(false);
+      // setIsLoading(false);
     }
   };
 
@@ -121,7 +127,11 @@ const Page = () => {
       <div className=" max-w-[1400px] mx-auto h-full ">
         <div className=" h-[5rem] flex items-center justify-between  ">
           <Link href={`/`} className=" text-[2rem] ">
-            <Image src={Logo} alt="Logo" className=" w-[10rem] mt-5 object-contain " />
+            <Image
+              src={Logo}
+              alt="Logo"
+              className=" w-[10rem] mt-5 object-contain "
+            />
           </Link>
           <Link
             href={`/`}

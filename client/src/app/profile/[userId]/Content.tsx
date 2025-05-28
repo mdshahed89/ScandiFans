@@ -132,10 +132,10 @@ const AccountManagement: React.FC<AccountManagementProps> = ({
   setFormData,
 }) => {
   const { userData, setUserData } = useData();
-  const [selectedProfileImg, setSelectedProfileImg] = useState(
-    userData?.profileImg || ""
-  );
-  const [errors, setErrors] = useState({});
+  // const [selectedProfileImg, setSelectedProfileImg] = useState(
+  //   userData?.profileImg || ""
+  // );
+  // const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [isImgChanged, setIsImgChanged] = useState(false);
   const [updateField, setUpdateField] = useState("");
@@ -164,7 +164,7 @@ const AccountManagement: React.FC<AccountManagementProps> = ({
 
     if (selectedFile) {
       if (selectedFile.size <= maxSize) {
-        setErrors((prev) => ({ ...prev, file: null }));
+        // setErrors((prev) => ({ ...prev, file: null }));
         setLoading(true);
 
         try {
@@ -177,25 +177,25 @@ const AccountManagement: React.FC<AccountManagementProps> = ({
             });
             setIsImgChanged(true);
           } else {
-            setErrors((prev) => ({
-              ...prev,
-              file: "Failed to upload file to Cloudinary.",
-            }));
+            // setErrors((prev) => ({
+            //   ...prev,
+            //   file: "Failed to upload file to Cloudinary.",
+            // }));
           }
         } catch (error) {
           console.error("Upload error:", error);
-          setErrors((prev) => ({
-            ...prev,
-            file: "An error occurred while uploading the file.",
-          }));
+          // setErrors((prev) => ({
+          //   ...prev,
+          //   file: "An error occurred while uploading the file.",
+          // }));
         } finally {
           setLoading(false);
         }
       } else {
-        setErrors((prev) => ({
-          ...prev,
-          file: "File size must be less than 5 MB.",
-        }));
+        // setErrors((prev) => ({
+        //   ...prev,
+        //   file: "File size must be less than 5 MB.",
+        // }));
       }
     }
   };
@@ -209,7 +209,9 @@ const AccountManagement: React.FC<AccountManagementProps> = ({
       });
     }
 
-    const payload: { [key: string]: any } = {};
+    // const payload: { [key: string]: any } = {};
+
+    const payload: Record<string, unknown> = {};
 
     if (formData.profileImg?.trim())
       payload.profileImg = formData.profileImg.trim();
@@ -628,7 +630,9 @@ const AccountInformation: React.FC<AccountManagementProps> = ({
       });
     }
 
-    const payload: { [key: string]: any } = {};
+    // const payload: { [key: string]: any } = {};
+
+    const payload: Record<string, unknown> = {};
 
     if (formData.description?.trim())
       payload.description = formData.description.trim();
@@ -650,7 +654,9 @@ const AccountInformation: React.FC<AccountManagementProps> = ({
       }
     }
 
-    const onlyFans: any = {};
+    // const onlyFans: any = {};
+
+    const onlyFans: Record<string, unknown> = {};
 
     if (
       formData.onlyFansInfo.video !== null &&
@@ -899,16 +905,16 @@ const CountrySelector: React.FC<SelectorProps> = ({
   const [isOpen, setIsOpen] = useState(false);
   const countryRef = useRef<HTMLDivElement | null>(null);
 
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
+  // const handleChange = (
+  //   e: React.ChangeEvent<
+  //     HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+  //   >
+  // ) => {
+  //   setFormData({
+  //     ...formData,
+  //     [e.target.name]: e.target.value,
+  //   });
+  // };
 
   const countries = [
     { name: "Afghanistan", code: "AF" },

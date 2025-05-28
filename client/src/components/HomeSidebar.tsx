@@ -85,15 +85,15 @@ const HomeSidebar: React.FC<HomeSidebarProps> = ({ filters, setFilters }) => {
   //   }));
   // };
 
-  const handleAgeChange = (newValues: number[]) => {
-  setValues(newValues); 
-  setFilters((prev) => ({
-    ...prev,
-    minAge: String(newValues[0]),
-    maxAge: String(newValues[1]),
-    page: 1,
-  }));
-};
+//   const handleAgeChange = (newValues: number[]) => {
+//   setValues(newValues); 
+//   setFilters((prev) => ({
+//     ...prev,
+//     minAge: String(newValues[0]),
+//     maxAge: String(newValues[1]),
+//     page: 1,
+//   }));
+// };
 
 
   const nationalities = [

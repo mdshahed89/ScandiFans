@@ -1,9 +1,10 @@
 800020 burgundy
 
-F4F1ED
+F4F1ED creame white
 
-cac8c6
+cac8c6 gray
 
 
 
-#4ED7F1
+
+https://scandify.vercel.app

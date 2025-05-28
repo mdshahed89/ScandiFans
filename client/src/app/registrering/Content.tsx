@@ -19,7 +19,7 @@ const Page = () => {
   const [error, setError] = useState("");
   const searchParams = useSearchParams();
   const [isMounted, setIsMounted] = useState(true);
-  const { userData, setUserData } = useData();
+  const { userData } = useData();
 
   const value = searchParams.get("query");
   const valueOfEmail = searchParams.get("email");
@@ -129,12 +129,23 @@ const Page = () => {
 
 export default Page;
 
+// interface UserData {
+//   id?: string;
+//   [key: string]: any;
+// }
+
 interface UserData {
   id?: string;
-  [key: string]: any;
+  email?: string;
+  isPlanActive?: boolean;
+  [key: string]: unknown;
 }
 
-const AccountCreated = ({ userData }: UserData) => {
+interface AccountCreatedProps {
+  userData: UserData;
+}
+
+const AccountCreated = ({ userData }: AccountCreatedProps ) => {
   return (
     <div>
       <div className=" text-[1.2rem] text-[#d1d1d1] font-semibold ">
@@ -205,10 +216,10 @@ const Step1 = ({ email }: { email: string }) => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  const { userData, setUserData } = useData();
+  const { setUserData } = useData();
 
   const validateEmail = (email: string) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -250,7 +261,7 @@ const Step1 = ({ email }: { email: string }) => {
 
     try {
       setError("");
-      setLoading(true);
+      // setLoading(true);
 
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/register`,
@@ -281,10 +292,15 @@ const Step1 = ({ email }: { email: string }) => {
         });
         // setError("success")
       }, 2000);
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
+    } catch (err: unknown) {
+  if (err instanceof Error) {
+    setError(err.message);
+  } else {
+    setError("Something went wrong");
+  }
+}
+ finally {
+      // setLoading(false);
     }
   };
 

@@ -66,7 +66,7 @@ export default function Home() {
     limit: 20,
     identity: [],
   });
-  const [totalPages, setTotalPages] = useState<number>(1);
+  // const [totalPages, setTotalPages] = useState<number>(1);
 
   useEffect(() => {
     fetchUsers();
@@ -133,15 +133,15 @@ export default function Home() {
       const data: ApiResponse = await res.json();
 
       setUsers(data.data);
-      setTotalPages(data.totalPages);
+      // setTotalPages(data.totalPages);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
   };
 
-  const goToPage = (pageNumber: number) => {
-    setFilters((prev) => ({ ...prev, page: pageNumber }));
-  };
+  // const goToPage = (pageNumber: number) => {
+  //   setFilters((prev) => ({ ...prev, page: pageNumber }));
+  // };
 
   // console.log(users);
 

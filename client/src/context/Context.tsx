@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, {
   createContext,
@@ -6,13 +6,13 @@ import React, {
   useState,
   useEffect,
   ReactNode,
-} from 'react';
+} from "react";
 
 interface UserData {
   _id?: string;
   email?: string;
   token?: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 interface FormContextType {
@@ -29,29 +29,35 @@ interface FormProviderProps {
 
 export const FormProvider: React.FC<FormProviderProps> = ({ children }) => {
   const [userData, setUserData] = useState<UserData>(() => {
-    if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('userData');
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem("userData");
       return stored ? JSON.parse(stored) : {};
     }
     return {};
   });
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('userData', JSON.stringify(userData));
+    if (typeof window !== "undefined") {
+      localStorage.setItem("userData", JSON.stringify(userData));
     }
   }, [userData]);
 
+  // const logout = () => {
+
+  //   if (typeof window !== 'undefined') {
+  //     const socket = (window as any).socket;
+  //     if (socket && userData?.id) {
+  //       socket.emit('logoutUser', userData.id);
+  //     }
+  //     setUserData({});
+  //     localStorage.removeItem('userData');
+  //   }
+  // };
+
   const logout = () => {
-    
-    if (typeof window !== 'undefined') {
-      const socket = (window as any).socket;
-      if (socket && userData?.id) {
-        socket.emit('logoutUser', userData.id);
-      }
+    if (typeof window !== "undefined") {
       setUserData({});
-      localStorage.removeItem('userData');
-      // localStorage.removeItem('token');
+      localStorage.removeItem("userData");
     }
   };
 
@@ -65,7 +71,7 @@ export const FormProvider: React.FC<FormProviderProps> = ({ children }) => {
 export const useData = (): FormContextType => {
   const context = useContext(FormContext);
   if (!context) {
-    throw new Error('useData must be used within a FormProvider');
+    throw new Error("useData must be used within a FormProvider");
   }
   return context;
 };
