@@ -1,7 +1,7 @@
 import React from "react";
 import Content from "./Content";
 
-interface Params {
+interface PageProps {
   params: {
     userId: string;
   };
@@ -20,19 +20,21 @@ const getUser = async (userId: string) => {
     return null;
   }
 
-  return res.json();
+  return res.json(); // Make sure this returns something like { user: ... }
 };
 
-const Page = async ({ params }: Params) => {
-  const { userId } = await params;
+const Page = async ({ params }: PageProps) => {
+  const { userId } = params;
 
-  const { user } = await getUser(userId);
+  const data = await getUser(userId);
 
-  // console.log(user)
+  if (!data?.user) {
+    return <div>User not found</div>;
+  }
 
   return (
     <div>
-      <Content user={user} />
+      <Content user={data.user} />
     </div>
   );
 };
