@@ -20,7 +20,6 @@ interface HomeSidebarProps {
   filters: Filters;
   setFilters: React.Dispatch<React.SetStateAction<Filters>>;
   isOpen: boolean;
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   toggleSidebar: () => void;
 }
 
@@ -28,7 +27,6 @@ const HomeSidebar: React.FC<HomeSidebarProps> = ({
   filters,
   setFilters,
   isOpen,
-  setIsOpen,
   toggleSidebar,
 }) => {
   const MIN = 18;

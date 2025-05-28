@@ -153,7 +153,7 @@ export default function Home() {
       <Header />
       <div className=" bg-[#000000] text-[#fff] min-h-[100vh] pt-[5rem] full-bg ">
         <div className=" max-w-[1400px] mx-auto pt-[4rem] flex gap-10 lg:gap-20 px-3 ">
-          <HomeSidebar filters={filters} setFilters={setFilters} isOpen={isOpen} setIsOpen={setIsOpen} toggleSidebar={toggleSidebar} />
+          <HomeSidebar filters={filters} setFilters={setFilters} isOpen={isOpen} toggleSidebar={toggleSidebar} />
           <div className=" w-full md:w-2/3 relative ">
             <div className=" flex justify-between md:justify-end ">
 
