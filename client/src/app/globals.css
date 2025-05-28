@@ -10,3 +10,117 @@
     margin: 0;
     box-sizing: border-box;
 }
+
+.full-bg {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.full-bg::before {
+  content: "";
+  position: absolute;
+  top: 27%;
+  right: 0;
+  bottom: 0;
+  left: -2%;
+  background-image: url('/BackgroundLogo.png');
+  background-size: cover;
+  background-position: left center;
+  background-repeat: no-repeat;
+  opacity: 0.65;
+  pointer-events: none; 
+  /* margin-top: 4rem; */
+  z-index: 0;
+}
+
+.full-bg > * {
+  position: relative;
+  z-index: 1;
+}
+
+
+.ligin-bg {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.ligin-bg::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-image: url('/LoginBg.jpg');
+  background-size: cover;
+  background-position: left center;
+  background-repeat: no-repeat;
+  opacity: 0.2;
+  pointer-events: none; 
+  /* margin-top: 4rem; */
+  z-index: 0;
+}
+
+.ligin-bg > * {
+  position: relative;
+  z-index: 1;
+}
+
+
+
+.custom-scrollbar {
+  height: 300px;
+  overflow-y: scroll;
+}
+
+/* WebKit scrollbar styles */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #9c9c9c;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #4d4d4d;
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+
+/* Override react-slick dot styles */
+.slick-dots li button:before {
+  color: #8b8b8b !important; /* Tailwind's gray-400 */
+  opacity: 1 !important; /* Make sure it's visible */
+  font-size: 10px !important;
+  margin-top: 1rem;
+  width: 2rem;
+}
+
+.slick-dots li.slick-active button:before {
+  color: #fc3265 !important; /* Burgundy */
+}
+
+
+/* Rocket launch animation */
+@keyframes rocketLaunch {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-20px) rotate(-2deg);
+  }
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+}
+
+.animate-rocket {
+  animation: rocketLaunch 1.5s ease-in-out infinite;
+}

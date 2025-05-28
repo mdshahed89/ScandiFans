@@ -1,9 +1,10 @@
 import React, { Suspense } from 'react'
 import PageContent from "./Content"
+import { PageLoading } from '@/utils/Loading'
 
 const page = () => {
   return (
-    <Suspense fallback={<div className="text-white text-center">Loading...</div>}>
+    <Suspense fallback={<PageLoading />}>
       <PageContent />
     </Suspense>
   )
