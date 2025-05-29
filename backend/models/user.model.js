@@ -22,23 +22,23 @@ const userSchema = new mongoose.Schema(
     onlyFansInfo: {
       video: {
         type: Number,
-        default: 0
+        default: 0,
       },
       img: {
         type: Number,
-        default: 0
+        default: 0,
       },
       react: {
         type: Number,
-        default: 0
+        default: 0,
       },
       imgs: {
         type: [String],
-        default: [] 
+        default: [],
       },
       videos: {
         type: String,
-        default: "" 
+        default: "",
       },
     },
     isPlanActive: {
@@ -52,6 +52,9 @@ const userSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    planStartDate: {
+      type: Date,
+    },
     identity: {
       type: String,
     },
@@ -63,18 +66,19 @@ const userSchema = new mongoose.Schema(
     },
     profileImg: {
       type: String,
-      default: "https://res.cloudinary.com/ddlwhkn3b/image/upload/v1748289152/SIDESONE/blank-profile-picture-973460_960_720-removebg-preview_nzqjpg.png"
+      default:
+        "https://res.cloudinary.com/ddlwhkn3b/image/upload/v1748289152/SIDESONE/blank-profile-picture-973460_960_720-removebg-preview_nzqjpg.png",
     },
     description: {
       type: String,
     },
     view: {
       type: Number,
-      default: 0
+      default: 0,
     },
     react: {
       type: Number,
-      default: 0
+      default: 0,
     },
   },
   { timestamps: true }

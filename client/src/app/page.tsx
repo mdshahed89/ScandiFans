@@ -33,10 +33,11 @@ type ApiResponse = {
 type Filters = {
   page: number;
   limit: number;
-  nationality?: string;
+  nationality: string;
   identity: string[];
   minAge?: string;
   maxAge?: string;
+  search: string;
 };
 
 export default function Home() {
@@ -69,6 +70,8 @@ export default function Home() {
     page: 1,
     limit: 20,
     identity: [],
+    nationality: "View All",
+    search: ""
   });
   // const [totalPages, setTotalPages] = useState<number>(1);
 
@@ -121,6 +124,7 @@ export default function Home() {
       if (filters.nationality) query.append("nationality", filters.nationality);
       if (filters.minAge) query.append("minAge", filters.minAge);
       if (filters.maxAge) query.append("maxAge", filters.maxAge);
+      if (filters.search) query.append("search", filters.search);
       if (filters.identity.length > 0) {
         filters.identity.forEach((value) => {
           query.append("identity", value);
@@ -134,7 +138,6 @@ export default function Home() {
       );
 
       if (!res.ok) {
-        // throw new Error(`HTTP error! status: ${res.status}`);
         console.log(`HTTP error! status: ${res.status}`);
         return;
       }
@@ -158,7 +161,7 @@ export default function Home() {
 
   return (
     <div>
-      <Header />
+      <Header filters={filters} setFilters={setFilters} />
       <div className=" bg-gradient-to-tr from-[#000] via-[#000] to-[#470012] text-[#fff] min-h-[100vh] pt-[5rem] full-bg pb-[1rem] ">
         <div className=" max-w-[1400px] mx-auto pt-[4rem] flex gap-10 lg:gap-20 px-3 ">
           <HomeSidebar filters={filters} setFilters={setFilters} isOpen={isOpen} toggleSidebar={toggleSidebar} />
@@ -172,7 +175,7 @@ export default function Home() {
 
               <div className="w-[10rem] relative text-center " ref={optionsRef}>
                 <div
-                  className="w-full px-4 py-2 border-2 border-gray-700 rounded-md cursor-pointer flex items-center justify-center gap-3 text-[#d1d1d1] "
+                  className="w-full px-4 py-2 border-2 border-[#F4F1ED] rounded-md cursor-pointer flex items-center justify-center gap-3 text-[#F4F1ED] "
                   onClick={() => setOptionsOpen(!optionsOpen)}
                 >
                   <span>{selectedSort}</span>
@@ -202,7 +205,7 @@ export default function Home() {
             </div>
             <div className=" mt-[2rem] md:mt-[.8rem] ">
               {
-                fetching ? <FetchLoading /> : <Profiles users={users} />
+                fetching ? <HomeFetchLoading /> : <Profiles users={users} />
               }
             </div>
           </div>
@@ -222,7 +225,7 @@ import Link from "next/link";
 import { AiOutlineCamera } from "react-icons/ai";
 import { FaRegHeart } from "react-icons/fa";
 import { TbColorFilter } from "react-icons/tb";
-import { FetchLoading } from "@/utils/Loading";
+import { FetchLoading, HomeFetchLoading } from "@/utils/Loading";
 
 const Profiles = ({ users }: ProfilesProps) => {
   return (
@@ -265,7 +268,7 @@ const Profiles = ({ users }: ProfilesProps) => {
             <div className=" w-full mt-[1rem] ">
               <Link
                 href={`/profile-view/${user._id}`}
-                className=" block w-full py-2 px-2 text-center bg-[#800020] text-[#fff] rounded-full "
+                className=" block w-full py-2 px-2 text-center border-2 border-[#800020] text-[#fff] rounded-md "
               >
                 View Profile
               </Link>

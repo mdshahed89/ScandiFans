@@ -10,10 +10,9 @@ import { Range, getTrackBackground } from "react-range";
 type Filters = {
   page: number;
   limit: number;
-  nationality?: string;
+  nationality: string;
+  search: string;
   identity: string[];
-  minAge?: string;
-  maxAge?: string;
 };
 
 interface HomeSidebarProps {
@@ -99,7 +98,7 @@ const HomeSidebar: React.FC<HomeSidebarProps> = ({
       <div className=" flex items-center justify-between ">
         <div className=" flex items-center gap-3 text-[1.2rem] text-[#F4F1ED] ">
           <BiMessageRoundedDots className=" mt-1 text-[1.5rem] " />
-          <span>Nasjonalitet</span>
+          <span>Nationality</span>
         </div>
 
         <div
@@ -109,7 +108,17 @@ const HomeSidebar: React.FC<HomeSidebarProps> = ({
           <FaXmark />
         </div>
       </div>
-      <div className="flex items-center flex-wrap gap-2 mt-[1.5rem] text-[#cac8c6]">
+      <div
+        onClick={() => handleNationalityClick("View All")}
+        className={` ${
+          filters.nationality === "View All"
+            ? "bg-[#800020] border-[#800020]"
+            : "bg-transparent border-[#851d37]"
+        } mt-[1.5rem] px-5 py-1 w-fit border rounded-md text-[#cac8c6] cursor-pointer `}
+      >
+        View All
+      </div>
+      <div className=" mt-[.5rem] flex items-center flex-wrap gap-2  text-[#cac8c6]">
         {nationalities.map((nation) => (
           <div
             key={nation}
@@ -128,7 +137,7 @@ const HomeSidebar: React.FC<HomeSidebarProps> = ({
       <div className=" mt-[3rem] ">
         <div className=" flex items-center gap-3 text-[1.2rem] text-[#F4F1ED] ">
           <RiApps2Line className=" mt-1 text-[1.4rem] " />
-          <span>Innhold</span>
+          <span>Content</span>
         </div>
 
         <div className=" mt-[1rem] space-y-4 text-[#cac8c6] ">
@@ -145,8 +154,8 @@ const HomeSidebar: React.FC<HomeSidebarProps> = ({
                   checked={toggles[label] || false}
                   onChange={() => toggleOption(label)}
                 />
-                <div className="w-12 h-6 shadow-inner bg-transparent ring-1 ring-[#800020] peer-checked:ring-[#800020] peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-[#800020] rounded-sm peer peer-checked:bg-[#7b1e3bc2] transition-all duration-300"></div>
-                <div className="absolute left-[4px] top-1 bg-[#800020] w-4 h-4 rounded-sm transition-transform duration-300 peer-checked:translate-x-[1.6rem] "></div>
+                <div className="w-12 h-6 shadow-inner bg-transparent ring-1 ring-[#420918] peer-checked:ring-[#800020] peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-[#800020] rounded-sm peer peer-checked:bg-[#7b1e3bc2] transition-all duration-300"></div>
+                <div className="absolute left-[4px] top-1 bg-[#77132d] w-4 h-4 rounded-sm transition-transform duration-300 peer-checked:translate-x-[1.6rem] "></div>
               </label>
             </div>
           ))}
@@ -156,7 +165,7 @@ const HomeSidebar: React.FC<HomeSidebarProps> = ({
       <div className=" mt-[3rem] ">
         <div className=" flex items-center gap-3 text-[1.2rem] text-[#F4F1ED] ">
           <BsCalendar3 className=" text-[1.2rem] " />
-          <span>Alder</span>
+          <span>Age</span>
         </div>
 
         <div className=" mt-[.5rem] w-full flex flex-col items-center justify-center px-2 text-[#cac8c6] ">

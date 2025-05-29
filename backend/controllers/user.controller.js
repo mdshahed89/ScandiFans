@@ -72,7 +72,9 @@ export const confirmPayment = async (req, res) => {
     }
 
     user.isPlanActive = true;
-    user.planDuration = Number(planDuration);
+    // user.planDuration = Number(planDuration);
+    user.planDuration = (user.planDuration || 0) + Number(planDuration);
+    user.planStartDate = new Date();
 
     await user.save();
 
@@ -329,7 +331,11 @@ export const getUsers = async (req, res) => {
       "Iceland",
     ];
 
-    if (req.query.nationality && req.query.nationality !== "Other") {
+    if (
+      req.query.nationality &&
+      req.query.nationality !== "Other" &&
+      req.query.nationality !== "View All"
+    ) {
       filter.nationality = req.query.nationality;
     } else if (req.query.nationality === "Other") {
       filter.nationality = { $nin: excludedNationalities };
@@ -371,12 +377,27 @@ export const getUsers = async (req, res) => {
       ];
     }
 
+    const search = req.query.search;
+    if (search && search.trim() !== "") {
+      const searchRegex = new RegExp(search.trim(), "i");
+      filter.$and = filter.$and || [];
+      filter.$and.push({
+        $or: [
+          { userName: { $regex: searchRegex } },
+          { name: { $regex: searchRegex } },
+        ],
+      });
+    }
+
+    console.log(req.query);
+    
+
     const totalUsers = await User.countDocuments(filter);
 
     const users = await User.find(filter)
       .skip(skip)
       .limit(limit)
-      .sort({ createdAt: -1 });
+      .sort({ isPlanActive: -1, createdAt: -1 });
 
     return res.status(200).send({
       success: true,

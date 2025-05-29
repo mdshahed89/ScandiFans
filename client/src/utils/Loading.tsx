@@ -23,3 +23,11 @@ export const FetchLoading = () => {
     </div>
   );
 };
+
+export const HomeFetchLoading = () => {
+  return (
+    <div className="absolute left-0 top-0 z-50 w-full h-full cursor-default inset-0 flex items-center justify-center bg-transparent rounded-md">
+      <div className="w-10 h-10 border-4 border-[#800020] border-t-transparent rounded-full animate-spin"></div>
+    </div>
+  );
+};

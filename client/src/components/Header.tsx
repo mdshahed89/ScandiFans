@@ -11,7 +11,22 @@ import Logo from "@/assets/Logo.png";
 import Image from "next/image";
 import { LuUserRound } from "react-icons/lu";
 
-const Header = () => {
+interface Filters {
+  page: number;
+  limit: number;
+  nationality: string;
+  identity: string[];
+  minAge?: string;
+  maxAge?: string;
+  search: string;
+}
+
+interface HeaderProps {
+  filters: Filters;
+  setFilters: React.Dispatch<React.SetStateAction<Filters>>;
+}
+
+const Header: React.FC<HeaderProps> = ({ filters, setFilters }) => {
   const [isClientReady, setIsClientReady] = useState(false);
 
   const { userData } = useData();
@@ -20,9 +35,28 @@ const Header = () => {
     setIsClientReady(true);
   }, []);
 
+  const [searchTerm, setSearchTerm] = useState(filters.search);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setFilters((prev) => ({
+        ...prev,
+        search: searchTerm,
+        page: 1, // reset page when searching
+      }));
+    }, 500); // debounce delay 500ms
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [searchTerm, setFilters]);
+
   if (!isClientReady) {
     return <PageLoading />;
   }
+
+  console.log(filters);
+  
 
   return (
     <header className=" bg-gradient-to-r from-[#000] to-[#470012] border-b text-[#F4F1ED] border-[#353535] fixed w-full left-0 top-0  z-50  ">
@@ -43,7 +77,9 @@ const Header = () => {
             </div>
             <input
               type="text"
-              placeholder="Søk etter profil"
+              placeholder="Search by username or name"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
               className=" outline-none bg-transparent text-[1.2rem] pr-3 pl-[2rem] "
             />
           </div>

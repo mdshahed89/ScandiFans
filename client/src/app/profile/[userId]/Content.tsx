@@ -19,27 +19,32 @@ import { SlCloudUpload } from "react-icons/sl";
 import { RxCross2 } from "react-icons/rx";
 import { GiCheckMark } from "react-icons/gi";
 
+interface UserType {
+  _id: string;
+  email: string;
+  profileImg: string;
+  description?: string;
+  userName?: string;
+  name?: string;
+  identity?: string;
+  age?: number;
+  nationality?: string;
+  view?: number;
+  react?: number;
+  isPlanActive: boolean;
+  planDuration: number;
+  remainingDays?: number;
+  onlyFansInfo?: {
+    video?: number | null;
+    img?: number | null;
+    react?: number | null;
+    imgs?: string[];
+    videos?: string;
+  };
+}
+
 interface ContentProps {
-  user: {
-    _id: string;
-    email: string;
-    profileImg: string;
-    description?: string;
-    userName?: string;
-    name?: string;
-    identity?: string;
-    age?: number;
-    nationality?: string;
-    view?: number;
-    react?: number;
-    onlyFansInfo?: {
-      video?: number | null;
-      img?: number | null;
-      react?: number | null;
-      imgs?: string[];
-      videos?: string;
-    };
-  } | null;
+  user: UserType | null;
 }
 
 const Content = ({ user }: ContentProps) => {
@@ -54,6 +59,7 @@ const Content = ({ user }: ContentProps) => {
     nationality: user?.nationality || "Select Nationality",
     view: user?.view || 0,
     react: user?.react || 0,
+    remainingDays: user?.remainingDays || 0,
     onlyFansInfo: {
       video: user?.onlyFansInfo?.video ?? null,
       img: user?.onlyFansInfo?.img ?? null,
@@ -73,8 +79,7 @@ const Content = ({ user }: ContentProps) => {
     return <PageLoading />;
   }
 
-  console.log(user);
-  
+  // console.log(user);
 
   if (!user) return <p>User not found</p>;
 
@@ -110,7 +115,11 @@ const Content = ({ user }: ContentProps) => {
         </div>
 
         <div className="  flex md:flex-row flex-col 2xl:border-x border-[#353535]  min-h-[100vh]">
-          <AccountManagement formData={formData} setFormData={setFormData} />
+          <AccountManagement
+            formData={formData}
+            setFormData={setFormData}
+            user={user}
+          />
           <AccountInformation formData={formData} setFormData={setFormData} />
         </div>
       </div>
@@ -131,6 +140,7 @@ type FormDataType = {
   nationality: string;
   view: number;
   react: number;
+  remainingDays: number;
   onlyFansInfo: {
     video: number | null;
     img: number | null;
@@ -140,14 +150,21 @@ type FormDataType = {
   };
 };
 
+interface AccountInformationProps {
+  formData: FormDataType;
+  setFormData: React.Dispatch<React.SetStateAction<FormDataType>>;
+}
+
 interface AccountManagementProps {
   formData: FormDataType;
   setFormData: React.Dispatch<React.SetStateAction<FormDataType>>;
+  user: UserType | null;
 }
 
 const AccountManagement: React.FC<AccountManagementProps> = ({
   formData,
   setFormData,
+  user,
 }) => {
   const { userData, setUserData } = useData();
   // const [selectedProfileImg, setSelectedProfileImg] = useState(
@@ -612,15 +629,14 @@ const AccountManagement: React.FC<AccountManagementProps> = ({
           </p>
         )}
 
-        <div>
-          <MembershipStatus  />
-        </div>
-
+      <div>
+        <MembershipStatus user={user} />
+      </div>
     </div>
   );
 };
 
-const AccountInformation: React.FC<AccountManagementProps> = ({
+const AccountInformation: React.FC<AccountInformationProps> = ({
   formData,
   setFormData,
 }) => {
@@ -766,27 +782,43 @@ const AccountInformation: React.FC<AccountManagementProps> = ({
       className=" pt-[2rem] md:pt-[7rem] pb-[2rem] md:pb-[5rem] md:pl-3 lg:pl-[2rem] lg:pr-[1.25rem] w-full "
     >
       {/* <div className=" flex gap-7 "> */}
-        <div className=" w-full ">
-          <h3>About me</h3>
+      <div className=" w-full ">
+        <h3 className=" text-[1.2rem] ">About me</h3>
 
-          <div className=" mt-[2rem] w-full space-y-2 ">
-            <label htmlFor="">Biographical Info</label>
-            <textarea
-              name="description"
-              rows={5}
-              value={formData.description}
-              onChange={handleChange}
-              className=" p-[.7rem] outline-none border-2 border-[#800020] bg-transparent w-full rounded-md text-[#d3cdcd] "
-            ></textarea>
-          </div>
+        <div className=" mt-[2rem] w-full space-y-2 ">
+          <label htmlFor="">Biographical Info</label>
+          <textarea
+            name="description"
+            rows={5}
+            value={formData.description}
+            onChange={handleChange}
+            className=" scrollbar-hidden p-[.7rem] outline-none border-2 border-[#800020] bg-transparent w-full rounded-md text-[#d3cdcd] "
+          ></textarea>
         </div>
+      </div>
 
-        {/* <div>
+      {/* <div>
           <MembershipStatus />
         </div> */}
       {/* </div> */}
 
-      <h3 className=" mt-[3rem] ">OnlyFans Info</h3>
+      <h3 className=" mt-[3rem] text-[1.2rem] ">OnlyFans Info</h3>
+
+      <div className=" mt-[2rem] ">
+        <div className=" space-y-2 w-full ">
+          <label htmlFor="" className=" text-gray-200 ">
+            OnlyFans Username
+          </label>
+          <input
+            type="text"
+            name="userName"
+            value={formData.userName}
+            onChange={handleChange}
+            className=" w-full px-3 py-2 border-2 border-[#800020] rounded-md outline-none bg-transparent "
+            placeholder="Enter username"
+          />
+        </div>
+      </div>
 
       <div className=" mt-[2rem] grid grid-cols-3 gap-3  ">
         <div className=" flex flex-col items-center justify-center space-y-3 ">
@@ -852,23 +884,14 @@ const AccountInformation: React.FC<AccountManagementProps> = ({
         <OnlyFansVideo formData={formData} setFormData={setFormData} />
       </div>
 
-      <h3 className=" mt-[3rem] ">Personal Information</h3>
+      <h3 className=" mt-[3rem] text-[1.2rem] ">Personal Information</h3>
 
       <div className=" mt-[2rem] w-full space-y-8 ">
         <div className=" flex gap-2 w-full ">
           <div className=" space-y-2 w-full ">
-            <label htmlFor="">Username</label>
-            <input
-              type="text"
-              name="userName"
-              value={formData.userName}
-              onChange={handleChange}
-              className=" w-full px-3 py-2 border-2 border-[#800020] rounded-md outline-none bg-transparent "
-              placeholder="Enter username"
-            />
-          </div>
-          <div className=" space-y-2 w-full ">
-            <label htmlFor="">Full Name</label>
+            <label htmlFor="" className=" text-gray-200 ">
+              Full Name
+            </label>
             <input
               type="text"
               name="name"
@@ -881,7 +904,9 @@ const AccountInformation: React.FC<AccountManagementProps> = ({
         </div>
         <div className=" flex gap-2 w-full ">
           <div className=" space-y-2 w-full ">
-            <label htmlFor="">Email</label>
+            <label htmlFor="" className=" text-gray-200 ">
+              Email
+            </label>
             <input
               type="email"
               name="email"
@@ -899,7 +924,9 @@ const AccountInformation: React.FC<AccountManagementProps> = ({
         </div>
         <div className=" flex gap-2 w-full ">
           <div className=" space-y-2 w-full ">
-            <label htmlFor="">Age</label>
+            <label htmlFor="" className=" text-gray-200 ">
+              Age
+            </label>
             <input
               type="number"
               name="age"
@@ -943,24 +970,40 @@ const AccountInformation: React.FC<AccountManagementProps> = ({
   );
 };
 
-const MembershipStatus = () => {
+interface MembershipStatusProps {
+  user: UserType | null;
+}
+
+const MembershipStatus: React.FC<MembershipStatusProps> = ({ user }) => {
+  if (!user) return null;
 
   return (
     <div className="w-full bg-[#131313] rounded-xl p-5 text-center shadow-md mt-[2rem] ">
       <div className=" flex items-center justify-between mb-10 ">
         <div className=" text-[#F4F1ED] text-base ">Membership Status</div>
-        <div className="bg-[#1b1b1b] text-[#c0244b] py-1.5 px-3 rounded-full font-semibold inline-flex items-center gap-2 ">
-        <GiCheckMark />
-        <span className=" text-sm ">Active</span>
-      </div>
+        <div
+          className={` bg-[#1b1b1b] ${
+            user.isPlanActive ? "text-[#c0244b]" : "text-[#cac8c6]"
+          } py-1.5 px-3 rounded-full font-semibold inline-flex items-center gap-2 `}
+        >
+          <GiCheckMark />
+          <span className=" text-sm ">
+            {user.isPlanActive ? "Active" : "Inactive"}
+          </span>
+        </div>
       </div>
 
       <div className="my-4">
-        <div className="text-4xl font-bold text-[#941c3a] leading-none">12</div>
+        <div className="text-4xl font-bold text-[#941c3a] leading-none">
+          {user.remainingDays}
+        </div>
         <div className="text-gray-400 text-sm mt-1">days remaining</div>
       </div>
 
-      <Link href={`/planer`} className="w-full bg-gradient-to-r from-[#000] to-[#800020] text-[#fff] py-3 px-5 rounded-lg font-semibold flex items-center justify-center gap-2 hover:-translate-y-0.5 hover:shadow-lg transition-all duration-300 text-sm ">
+      <Link
+        href={`/planer`}
+        className="w-full bg-gradient-to-r from-[#000] to-[#800020] text-[#fff] py-3 px-5 rounded-lg font-semibold flex items-center justify-center gap-2 hover:-translate-y-0.5 hover:shadow-lg transition-all duration-300 text-sm "
+      >
         <span>Upgrade</span>
         <FaArrowRightLong />
       </Link>
@@ -968,7 +1011,7 @@ const MembershipStatus = () => {
   );
 };
 
-const OnlyFansImgs: React.FC<AccountManagementProps> = ({
+const OnlyFansImgs: React.FC<AccountInformationProps> = ({
   formData,
   setFormData,
 }) => {
@@ -1051,7 +1094,7 @@ const OnlyFansImgs: React.FC<AccountManagementProps> = ({
     <div className=" mt-[2rem] ">
       <div>
         <div className=" mt-5 flex items-center justify-between ">
-          <h3 className=" font-medium ">Images</h3>
+          <h3 className=" font-medium text-gray-200 ">Images</h3>
           <div
             onClick={() => setUploadImgOpen(!uploadImgOpen)}
             className=" bg-[#800020] p-2 text-[1.2rem] text-[#fff] rounded-full cursor-pointer transition-all duration-300 ease-in-out "
@@ -1098,7 +1141,7 @@ const OnlyFansImgs: React.FC<AccountManagementProps> = ({
         <div className="grid grid-cols-4 gap-2 mt-4 ">
           {formData?.onlyFansInfo?.imgs?.map((img, index) => (
             <div key={index} className="relative h-[10rem]">
-              <div className="absolute flex justify-end z-50 bg-black/50 text-[#fff] p-2 right-2 top-2 rounded-full">
+              <div className="absolute flex justify-end z-40 bg-black/50 text-[#fff] p-2 right-2 top-2 rounded-full">
                 <button type="button" onClick={() => handleClearFile(index)}>
                   <RxCross2 className="text-xl" />
                 </button>
@@ -1122,7 +1165,7 @@ const OnlyFansImgs: React.FC<AccountManagementProps> = ({
   );
 };
 
-const OnlyFansVideo: React.FC<AccountManagementProps> = ({
+const OnlyFansVideo: React.FC<AccountInformationProps> = ({
   formData,
   setFormData,
 }) => {
@@ -1192,7 +1235,7 @@ const OnlyFansVideo: React.FC<AccountManagementProps> = ({
   return (
     <div className="mt-10">
       <div className=" mt-5 flex items-center justify-between ">
-        <h3 className=" font-medium ">Video</h3>
+        <h3 className=" font-medium text-gray-200 ">Video</h3>
         <div
           onClick={() => setUploadVideoOpen(!uploadVideoOpen)}
           className=" bg-[#800020] p-2 text-[1.2rem] text-[#fff] rounded-full cursor-pointer transition-all duration-300 ease-in-out "
@@ -1233,7 +1276,7 @@ const OnlyFansVideo: React.FC<AccountManagementProps> = ({
 
       {formData?.onlyFansInfo?.videos && (
         <div className="relative mt-4 w-[15rem] h-[12rem]">
-          <div className="absolute flex justify-end z-50 bg-black/50 text-[#fff] p-2 right-2 top-2 rounded-full">
+          <div className="absolute flex justify-end z-40 bg-black/50 text-[#fff] p-2 right-2 top-2 rounded-full">
             <button type="button" onClick={handleRemoveVideo}>
               <RxCross2 className="text-xl" />
             </button>
@@ -1489,7 +1532,9 @@ const CountrySelector: React.FC<SelectorProps> = ({
 
   return (
     <div className=" space-y-2 w-full ">
-      <label htmlFor="">Nationality</label>
+      <label htmlFor="" className=" text-gray-200 ">
+        Nationality
+      </label>
       <div className=" border-2 border-[#800020] rounded-md ">
         <div className=" relative text-center " ref={countryRef}>
           <div
@@ -1568,7 +1613,9 @@ const IdentitySelector: React.FC<SelectorProps> = ({
 
   return (
     <div className=" space-y-2 w-full ">
-      <label htmlFor="">Identity</label>
+      <label htmlFor="" className=" text-gray-200 ">
+        Identity
+      </label>
       <div className=" border-2 border-[#800020] rounded-md ">
         <div className=" relative text-center " ref={identityRef}>
           <div
