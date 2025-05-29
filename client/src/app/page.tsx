@@ -5,6 +5,13 @@ import HomeSidebar from "@/components/HomeSidebar";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
+import ProfileImg from "@/assets/ProfileImg.png";
+import { FiVideo } from "react-icons/fi";
+import Link from "next/link";
+import { AiOutlineCamera } from "react-icons/ai";
+import { FaRegHeart } from "react-icons/fa";
+import { TbColorFilter } from "react-icons/tb";
+import { HomeFetchLoading } from "@/utils/Loading";
 
 type User = {
   _id: string;
@@ -162,7 +169,7 @@ export default function Home() {
   return (
     <div>
       <Header filters={filters} setFilters={setFilters} />
-      <div className=" bg-gradient-to-tr from-[#000] via-[#000] to-[#470012] text-[#fff] min-h-[100vh] pt-[5rem] full-bg pb-[1rem] ">
+      <div className=" bg-[linear-gradient(to_top_right,#000000,#000,#000,#470012)] text-[#fff] min-h-[100vh] pt-[5rem] full-bg pb-[1rem] ">
         <div className=" max-w-[1400px] mx-auto pt-[4rem] flex gap-10 lg:gap-20 px-3 ">
           <HomeSidebar filters={filters} setFilters={setFilters} isOpen={isOpen} toggleSidebar={toggleSidebar} />
           <div className=" w-full md:w-2/3 relative ">
@@ -218,14 +225,6 @@ export default function Home() {
 type ProfilesProps = {
   users: User[];
 };
-
-import ProfileImg from "@/assets/ProfileImg.png";
-import { FiVideo } from "react-icons/fi";
-import Link from "next/link";
-import { AiOutlineCamera } from "react-icons/ai";
-import { FaRegHeart } from "react-icons/fa";
-import { TbColorFilter } from "react-icons/tb";
-import { FetchLoading, HomeFetchLoading } from "@/utils/Loading";
 
 const Profiles = ({ users }: ProfilesProps) => {
   return (

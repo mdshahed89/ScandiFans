@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { RiHome9Line } from "react-icons/ri";
 import ProfileImg from "@/assets/ProfileImg.png";
 import Image from "next/image";
