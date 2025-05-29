@@ -9,7 +9,6 @@ import { MdJoinLeft, MdRoundaboutRight } from "react-icons/md";
 import { RiAccountBox2Line } from "react-icons/ri";
 import Logo from "@/assets/Logo.png";
 import Image from "next/image";
-import { FaRegUser } from "react-icons/fa6";
 import { LuUserRound } from "react-icons/lu";
 
 const Header = () => {

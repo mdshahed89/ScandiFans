@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
-import { RiAddLargeFill, RiHome9Line, RiSave2Line } from "react-icons/ri";
+import { RiHome9Line, RiSave2Line } from "react-icons/ri";
 import ProfileImg from "@/assets/ProfileImg.png";
 import Image from "next/image";
 import { FaArrowRightLong, FaMinus, FaPlus, FaXmark } from "react-icons/fa6";
@@ -17,7 +17,6 @@ import { FiVideo } from "react-icons/fi";
 import Logo from "@/assets/Logo.png";
 import { SlCloudUpload } from "react-icons/sl";
 import { RxCross2 } from "react-icons/rx";
-import { HiMinus } from "react-icons/hi";
 import { GiCheckMark } from "react-icons/gi";
 
 interface ContentProps {
@@ -630,12 +629,12 @@ const AccountInformation: React.FC<AccountManagementProps> = ({
     message: "",
   });
   const { userData } = useData();
-  const [isChanged, setIsChanged] = useState(false);
+  // const [isChanged, setIsChanged] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setIsChanged(true);
+    // setIsChanged(true);
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -742,7 +741,7 @@ const AccountInformation: React.FC<AccountManagementProps> = ({
           type: "SUCCESS",
           message: "Updated Successfully!!",
         });
-        setIsChanged(false);
+        // setIsChanged(false);
       } else {
         console.error("Update failed:", data.message);
         setToastMessage({
@@ -895,7 +894,7 @@ const AccountInformation: React.FC<AccountManagementProps> = ({
           <IdentitySelector
             formData={formData}
             setFormData={setFormData}
-            setIsChanged={setIsChanged}
+            // setIsChanged={setIsChanged}
           />
         </div>
         <div className=" flex gap-2 w-full ">
@@ -913,7 +912,7 @@ const AccountInformation: React.FC<AccountManagementProps> = ({
           <CountrySelector
             formData={formData}
             setFormData={setFormData}
-            setIsChanged={setIsChanged}
+            // setIsChanged={setIsChanged}
           />
         </div>
 
@@ -1253,13 +1252,13 @@ const OnlyFansVideo: React.FC<AccountManagementProps> = ({
 interface SelectorProps {
   formData: FormDataType;
   setFormData: React.Dispatch<React.SetStateAction<FormDataType>>;
-  setIsChanged: React.Dispatch<React.SetStateAction<boolean>>;
+  // setIsChanged: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const CountrySelector: React.FC<SelectorProps> = ({
   formData,
   setFormData,
-  setIsChanged,
+  // setIsChanged,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const countryRef = useRef<HTMLDivElement | null>(null);
@@ -1517,7 +1516,7 @@ const CountrySelector: React.FC<SelectorProps> = ({
                       // countryCode: country.code,
                     });
                     setIsOpen(false);
-                    setIsChanged(true);
+                    // setIsChanged(true);
                   }}
                 >
                   {country.name}
@@ -1534,7 +1533,7 @@ const CountrySelector: React.FC<SelectorProps> = ({
 const IdentitySelector: React.FC<SelectorProps> = ({
   formData,
   setFormData,
-  setIsChanged,
+  // setIsChanged,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const identityRef = useRef<HTMLDivElement | null>(null);
@@ -1595,7 +1594,7 @@ const IdentitySelector: React.FC<SelectorProps> = ({
                       identity: idnt,
                     });
                     setIsOpen(false);
-                    setIsChanged(true);
+                    // setIsChanged(true);
                   }}
                 >
                   {idnt}
