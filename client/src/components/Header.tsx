@@ -9,6 +9,8 @@ import { MdJoinLeft, MdRoundaboutRight } from "react-icons/md";
 import { RiAccountBox2Line } from "react-icons/ri";
 import Logo from "@/assets/Logo.png";
 import Image from "next/image";
+import { FaRegUser } from "react-icons/fa6";
+import { LuUserRound } from "react-icons/lu";
 
 const Header = () => {
   const [isClientReady, setIsClientReady] = useState(false);
@@ -48,7 +50,7 @@ const Header = () => {
           </div>
           <div className=" flex items-center gap-2 ">
             <Link
-              href={`/faq`}
+              href={`#`}
               className=" flex lg:hidden items-center gap-2 bg-[#800020] border-2 border-[#800020] text-[#F4F1ED]  transition-colors duration-300 ease-in-out rounded-full px-2 py-2 text-[1.1rem]  "
             >
               <FiSearch className=" text-[1.3rem] " />
@@ -64,7 +66,7 @@ const Header = () => {
                 href={`/profile/${userData?._id}`}
                 className="flex items-center gap-2 bg-[#800020] text-[#F4F1ED] md:border-2 border-[#800020]  transition-colors duration-300 ease-in-out rounded-lg px-3 md:px-8 py-2 text-[1.1rem]  "
               >
-                <RiAccountBox2Line className=" text-[1.3rem] " />
+                <LuUserRound className=" text-[1.2rem] " />
                 <span>Profile</span>
               </Link>
             ) : (

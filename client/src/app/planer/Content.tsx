@@ -67,7 +67,7 @@ const Page = () => {
 
   return (
     <div className=" bg-gradient-to-tr from-[#000] via-[#000] to-[#470012] min-h-screen h-full text-[#fff] ">
-      <div className=" max-w-[1400px] mx-auto h-full px-3 ">
+      <div className=" max-w-[1400px] mx-auto h-full px-3 z-50 ">
         <div className=" h-[5rem] flex items-center justify-between  ">
           <Link href={`/`} className=" text-[2rem] ">
             <Image

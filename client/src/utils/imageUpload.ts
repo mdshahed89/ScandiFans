@@ -17,3 +17,21 @@ export const uploadFile = async (file: File): Promise<string | null> => {
     return null;
   }
 };
+
+
+const videoApi = `https://api.cloudinary.com/v1_1/${cloudName}/video/upload`;
+
+export const uploadVideo = async (file: File): Promise<string | null> => {
+  try {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "videos_preset"); 
+    formData.append("folder", "SIDESONE");
+
+    const res = await axios.post<{ secure_url: string }>(videoApi, formData);
+    return res.data.secure_url;
+  } catch (error) {
+    console.error("Error uploading video:", error);
+    return null;
+  }
+};

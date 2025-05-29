@@ -44,6 +44,7 @@ export default function Home() {
   const [selectedSort, setSelectedSort] = useState("Sory by");
   const optionsRef = useRef<HTMLDivElement | null>(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [fetching, setFetching] = useState(false)
 
   const toggleSidebar = () => setIsOpen(!isOpen);
 
@@ -110,6 +111,9 @@ export default function Home() {
 
   const fetchUsers = async () => {
     try {
+
+      setFetching(true)
+
       const query = new URLSearchParams();
 
       if (filters.page) query.append("page", String(filters.page));
@@ -130,7 +134,9 @@ export default function Home() {
       );
 
       if (!res.ok) {
-        throw new Error(`HTTP error! status: ${res.status}`);
+        // throw new Error(`HTTP error! status: ${res.status}`);
+        console.log(`HTTP error! status: ${res.status}`);
+        return;
       }
 
       const data: ApiResponse = await res.json();
@@ -139,6 +145,8 @@ export default function Home() {
       // setTotalPages(data.totalPages);
     } catch (error) {
       console.error("Error fetching users:", error);
+    } finally{
+      setFetching(false)
     }
   };
 
@@ -151,7 +159,7 @@ export default function Home() {
   return (
     <div>
       <Header />
-      <div className=" bg-[#000000] text-[#fff] min-h-[100vh] pt-[5rem] full-bg ">
+      <div className=" bg-[#000000] text-[#fff] min-h-[100vh] pt-[5rem] full-bg pb-[1rem] ">
         <div className=" max-w-[1400px] mx-auto pt-[4rem] flex gap-10 lg:gap-20 px-3 ">
           <HomeSidebar filters={filters} setFilters={setFilters} isOpen={isOpen} toggleSidebar={toggleSidebar} />
           <div className=" w-full md:w-2/3 relative ">
@@ -193,7 +201,9 @@ export default function Home() {
               </div>
             </div>
             <div className=" mt-[2rem] md:mt-[.8rem] ">
-              <Profiles users={users} />
+              {
+                fetching ? <FetchLoading /> : <Profiles users={users} />
+              }
             </div>
           </div>
         </div>
@@ -212,6 +222,7 @@ import Link from "next/link";
 import { AiOutlineCamera } from "react-icons/ai";
 import { FaRegHeart } from "react-icons/fa";
 import { TbColorFilter } from "react-icons/tb";
+import { FetchLoading } from "@/utils/Loading";
 
 const Profiles = ({ users }: ProfilesProps) => {
   return (
@@ -231,7 +242,7 @@ const Profiles = ({ users }: ProfilesProps) => {
           </div>
           <div className=" bg-[#20050c] pt-1 px-3 pb-3 ">
             <div className="font-semibold text-center ">
-              {user.userName || "No name"}
+              {user.userName || "username"}
             </div>
             <div className=" grid grid-cols-3 gap-4 pt-3 ">
               <div className=" flex flex-col gap-1 justify-center items-center w-full ">

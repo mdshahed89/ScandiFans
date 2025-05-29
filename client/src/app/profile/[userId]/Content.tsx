@@ -2,19 +2,23 @@
 
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
-import { RiHome9Line, RiSave2Line } from "react-icons/ri";
+import { RiAddLargeFill, RiHome9Line, RiSave2Line } from "react-icons/ri";
 import ProfileImg from "@/assets/ProfileImg.png";
 import Image from "next/image";
-import { FaXmark } from "react-icons/fa6";
+import { FaArrowRightLong, FaMinus, FaPlus, FaXmark } from "react-icons/fa6";
 import { AiOutlineCamera, AiOutlineEye } from "react-icons/ai";
 import { FaHeart, FaRegHeart, FaSave } from "react-icons/fa";
 import { SignOutButton } from "@/utils/Util";
 import { useData } from "@/context/Context";
 import { FetchLoading, PageLoading } from "@/utils/Loading";
-import { uploadFile } from "@/utils/imageUpload";
+import { uploadFile, uploadVideo } from "@/utils/imageUpload";
 import { IoIosArrowDown } from "react-icons/io";
 import { FiVideo } from "react-icons/fi";
 import Logo from "@/assets/Logo.png";
+import { SlCloudUpload } from "react-icons/sl";
+import { RxCross2 } from "react-icons/rx";
+import { HiMinus } from "react-icons/hi";
+import { GiCheckMark } from "react-icons/gi";
 
 interface ContentProps {
   user: {
@@ -33,6 +37,8 @@ interface ContentProps {
       video?: number | null;
       img?: number | null;
       react?: number | null;
+      imgs?: string[];
+      videos?: string;
     };
   } | null;
 }
@@ -53,6 +59,8 @@ const Content = ({ user }: ContentProps) => {
       video: user?.onlyFansInfo?.video ?? null,
       img: user?.onlyFansInfo?.img ?? null,
       react: user?.onlyFansInfo?.react ?? null,
+      imgs: user?.onlyFansInfo?.imgs ?? [],
+      videos: user?.onlyFansInfo?.videos ?? "",
     },
   });
 
@@ -65,6 +73,9 @@ const Content = ({ user }: ContentProps) => {
   if (!isClientReady) {
     return <PageLoading />;
   }
+
+  console.log(user);
+  
 
   if (!user) return <p>User not found</p>;
 
@@ -125,6 +136,8 @@ type FormDataType = {
     video: number | null;
     img: number | null;
     react: number | null;
+    imgs: string[];
+    videos: string;
   };
 };
 
@@ -410,7 +423,7 @@ const AccountManagement: React.FC<AccountManagementProps> = ({
   };
 
   return (
-    <div className=" pt-[7rem] w-full md:max-w-[20rem] lg:max-w-[25rem] md:border-r border-[#353535] md:pr-3 lg:pl-[1.25rem] lg:pr-[2rem] pb-[2rem] ">
+    <div className=" pt-[7rem] w-full md:max-w-[20rem] lg:max-w-[25rem] md:border-r border-[#353535] md:pr-3 lg:pl-[2rem] lg:pr-[2rem] pb-[2rem] ">
       <h4>Account Management</h4>
 
       <div className=" relative mt-[2rem] bg-[#9b1c1cb7] p-[.5rem] rounded-lg ">
@@ -425,7 +438,7 @@ const AccountManagement: React.FC<AccountManagementProps> = ({
           }}
           className={` ${
             loading ? "hidden" : ""
-          } cursor-pointer absolute right-3 top-3 p-2 z-50 shadow-inner bg-[#9b1c1cb7] rounded-full text-[#fff] w-fit text-[1.5rem] `}
+          } cursor-pointer absolute right-3 top-3 p-2 z-40 shadow-inner bg-[#9b1c1cb7] rounded-full text-[#fff] w-fit text-[1.5rem] `}
         >
           <FaXmark />
         </div>
@@ -599,6 +612,11 @@ const AccountManagement: React.FC<AccountManagementProps> = ({
             {toastMessage.message}
           </p>
         )}
+
+        <div>
+          <MembershipStatus  />
+        </div>
+
     </div>
   );
 };
@@ -648,8 +666,6 @@ const AccountInformation: React.FC<AccountManagementProps> = ({
       payload.identity = formData.identity;
     if (formData.nationality && formData.nationality !== "Select Nationality")
       payload.nationality = formData.nationality;
-    // if (typeof formData.age === "number" && !isNaN(formData.age))
-    //   payload.age = formData.age;
 
     if (typeof formData.age === "number" && !isNaN(formData.age)) {
       payload.age = formData.age;
@@ -683,6 +699,22 @@ const AccountInformation: React.FC<AccountManagementProps> = ({
       !isNaN(formData.onlyFansInfo.react)
     ) {
       onlyFans.react = formData.onlyFansInfo.react;
+    }
+
+    if (
+      formData.onlyFansInfo.imgs !== undefined &&
+      Array.isArray(formData.onlyFansInfo.imgs) &&
+      formData.onlyFansInfo.imgs.length > 0
+    ) {
+      onlyFans.imgs = formData.onlyFansInfo.imgs;
+    }
+
+    if (
+      formData.onlyFansInfo.videos !== undefined &&
+      typeof formData.onlyFansInfo.videos === "string" &&
+      formData.onlyFansInfo.videos.trim() !== ""
+    ) {
+      onlyFans.videos = formData.onlyFansInfo.videos;
     }
 
     if (Object.keys(onlyFans).length > 0) {
@@ -727,25 +759,33 @@ const AccountInformation: React.FC<AccountManagementProps> = ({
     }
   };
 
-  console.log(formData);
+  // console.log(formData);
 
   return (
     <form
       onSubmit={handleSubmit}
       className=" pt-[2rem] md:pt-[7rem] pb-[2rem] md:pb-[5rem] md:pl-3 lg:pl-[2rem] lg:pr-[1.25rem] w-full "
     >
-      <h3>About me</h3>
+      {/* <div className=" flex gap-7 "> */}
+        <div className=" w-full ">
+          <h3>About me</h3>
 
-      <div className=" w-full mt-[2rem] space-y-2 ">
-        <label htmlFor="">Biographical Info</label>
-        <textarea
-          name="description"
-          rows={4}
-          value={formData.description}
-          onChange={handleChange}
-          className=" p-[.7rem] outline-none border-2 border-[#800020] bg-transparent w-full rounded-md text-[#d3cdcd] "
-        ></textarea>
-      </div>
+          <div className=" mt-[2rem] w-full space-y-2 ">
+            <label htmlFor="">Biographical Info</label>
+            <textarea
+              name="description"
+              rows={5}
+              value={formData.description}
+              onChange={handleChange}
+              className=" p-[.7rem] outline-none border-2 border-[#800020] bg-transparent w-full rounded-md text-[#d3cdcd] "
+            ></textarea>
+          </div>
+        </div>
+
+        {/* <div>
+          <MembershipStatus />
+        </div> */}
+      {/* </div> */}
 
       <h3 className=" mt-[3rem] ">OnlyFans Info</h3>
 
@@ -804,6 +844,13 @@ const AccountInformation: React.FC<AccountManagementProps> = ({
             className=" outline-none bg-transparent py-2 text-center border-2 rounded-full w-full "
           />
         </div>
+      </div>
+
+      <div>
+        <OnlyFansImgs formData={formData} setFormData={setFormData} />
+      </div>
+      <div>
+        <OnlyFansVideo formData={formData} setFormData={setFormData} />
       </div>
 
       <h3 className=" mt-[3rem] ">Personal Information</h3>
@@ -884,16 +931,322 @@ const AccountInformation: React.FC<AccountManagementProps> = ({
           )}
         </div>
 
-        {isChanged && (
-          <div className=" flex justify-end ">
-            <button className=" bg-[#800020] px-8 py-2 rounded-md font-medium flex items-center gap-2 ">
-              <RiSave2Line className=" text-[1.2rem] " />
-              <span>Save</span>
-            </button>
-          </div>
-        )}
+        {/* {isChanged && ( */}
+        <div className=" flex justify-end ">
+          <button className=" bg-[#800020] px-8 py-2 rounded-md font-medium flex items-center gap-2 ">
+            <RiSave2Line className=" text-[1.2rem] " />
+            <span>Save</span>
+          </button>
+        </div>
+        {/* )} */}
       </div>
     </form>
+  );
+};
+
+const MembershipStatus = () => {
+
+  return (
+    <div className="w-full bg-[#131313] rounded-xl p-5 text-center shadow-md mt-[2rem] ">
+      <div className=" flex items-center justify-between mb-10 ">
+        <div className=" text-[#F4F1ED] text-base ">Membership Status</div>
+        <div className="bg-[#1b1b1b] text-[#c0244b] py-1.5 px-3 rounded-full font-semibold inline-flex items-center gap-2 ">
+        <GiCheckMark />
+        <span className=" text-sm ">Active</span>
+      </div>
+      </div>
+
+      <div className="my-4">
+        <div className="text-4xl font-bold text-[#941c3a] leading-none">12</div>
+        <div className="text-gray-400 text-sm mt-1">days remaining</div>
+      </div>
+
+      <Link href={`/planer`} className="w-full bg-gradient-to-r from-[#000] to-[#800020] text-[#fff] py-3 px-5 rounded-lg font-semibold flex items-center justify-center gap-2 hover:-translate-y-0.5 hover:shadow-lg transition-all duration-300 text-sm ">
+        <span>Upgrade</span>
+        <FaArrowRightLong />
+      </Link>
+    </div>
+  );
+};
+
+const OnlyFansImgs: React.FC<AccountManagementProps> = ({
+  formData,
+  setFormData,
+}) => {
+  const [errors, setErrors] = useState<{ imgs?: string }>({});
+  const [loading, setLoading] = useState(false);
+  const [uploadImgOpen, setUploadImgOpen] = useState(false);
+
+  const handleFileUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const selectedFiles = Array.from(event.target.files || []);
+    const maxSize = 2 * 1024 * 1024;
+    const maxFiles = 4;
+    const existingImages = formData.onlyFansInfo?.imgs || [];
+
+    if (existingImages.length >= maxFiles) {
+      setErrors((prev) => ({
+        ...prev,
+        imgs: "You can upload a maximum of 4 images.",
+      }));
+      return;
+    }
+
+    const allowedFiles = selectedFiles.slice(
+      0,
+      maxFiles - existingImages.length
+    );
+
+    const validFiles: File[] = [];
+    allowedFiles.forEach((file) => {
+      if (file.size <= maxSize) {
+        validFiles.push(file);
+      } else {
+        setErrors((prev) => ({
+          ...prev,
+          imgs: `${file.name} exceeds 2 MB size limit.`,
+        }));
+      }
+    });
+
+    if (validFiles.length === 0) return;
+
+    setErrors((prev) => ({ ...prev, imgs: undefined }));
+    setLoading(true);
+
+    try {
+      const uploadedUrls = (
+        await Promise.all(validFiles.map(uploadFile))
+      ).filter((url): url is string => url !== null);
+
+      setFormData((prev) => ({
+        ...prev,
+        onlyFansInfo: {
+          ...prev.onlyFansInfo,
+          imgs: [...existingImages, ...uploadedUrls],
+        },
+      }));
+    } catch (error) {
+      console.error("Upload error:", error);
+      setErrors((prev) => ({
+        ...prev,
+        imgs: "An error occurred while uploading the files.",
+      }));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleClearFile = (index: number) => {
+    setFormData((prev) => ({
+      ...prev,
+      onlyFansInfo: {
+        ...prev.onlyFansInfo,
+        imgs: prev.onlyFansInfo?.imgs?.filter((_, i) => i !== index),
+      },
+    }));
+  };
+
+  return (
+    <div className=" mt-[2rem] ">
+      <div>
+        <div className=" mt-5 flex items-center justify-between ">
+          <h3 className=" font-medium ">Images</h3>
+          <div
+            onClick={() => setUploadImgOpen(!uploadImgOpen)}
+            className=" bg-[#800020] p-2 text-[1.2rem] text-[#fff] rounded-full cursor-pointer transition-all duration-300 ease-in-out "
+          >
+            {uploadImgOpen ? <FaMinus /> : <FaPlus />}
+          </div>
+        </div>
+
+        {uploadImgOpen && (
+          <div
+            onClick={() =>
+              document.getElementById("galleryFile-click")?.click()
+            }
+            className="mt-3 relative w-full flex flex-col items-center justify-center gap-4 border-2 border-[#616161] rounded-md cursor-pointer py-6 px-4"
+          >
+            {loading && <FetchLoading />}
+            <button
+              type="button"
+              className="text-white transition-all duration-300 ease-in-out active:scale-95 text-[2rem] py-1 px-8 rounded-full"
+            >
+              <SlCloudUpload />
+            </button>
+            <div className="text-center text-gray-500">
+              <p>
+                You can upload up to 4 images. Each image must be under 2MB.
+              </p>
+              <p>Accepted formats: PNG, JPEG, JPG.</p>
+            </div>
+            <input
+              id="galleryFile-click"
+              type="file"
+              accept="image/*"
+              multiple
+              className="hidden"
+              onChange={handleFileUpload}
+            />
+          </div>
+        )}
+
+        {errors.imgs && (
+          <p className="text-red-500 text-sm mt-2 text-center">{errors.imgs}</p>
+        )}
+
+        <div className="grid grid-cols-4 gap-2 mt-4 ">
+          {formData?.onlyFansInfo?.imgs?.map((img, index) => (
+            <div key={index} className="relative h-[10rem]">
+              <div className="absolute flex justify-end z-50 bg-black/50 text-[#fff] p-2 right-2 top-2 rounded-full">
+                <button type="button" onClick={() => handleClearFile(index)}>
+                  <RxCross2 className="text-xl" />
+                </button>
+              </div>
+              <div className="relative w-full h-full rounded-lg p-2">
+                <Image
+                  loading="lazy"
+                  placeholder="blur"
+                  src={img}
+                  alt={`gallery-img-${index}`}
+                  fill
+                  blurDataURL="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxIiBoZWlnaHQ9IjEiPjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiNjY2NjY2MiLz48L3N2Zz4="
+                  className="w-full h-full object-cover rounded-md"
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const OnlyFansVideo: React.FC<AccountManagementProps> = ({
+  formData,
+  setFormData,
+}) => {
+  const [errors, setErrors] = useState<{ video?: string }>({});
+  const [loading, setLoading] = useState(false);
+  const [uploadVideoOpen, setUploadVideoOpen] = useState(false);
+
+  const handleVideoUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files?.[0];
+    const maxSize = 20 * 1024 * 1024; // 20 MB
+
+    if (!file) return;
+
+    const isAcceptedFormat = [
+      "video/mp4",
+      "video/quicktime",
+      "video/webm",
+    ].includes(file.type);
+    if (!isAcceptedFormat) {
+      setErrors({ video: "Unsupported format. Use MP4, MOV, or WebM." });
+      return;
+    }
+
+    if (file.size > maxSize) {
+      setErrors({ video: "Video size must be under 20 MB." });
+      return;
+    }
+
+    setErrors({});
+    setLoading(true);
+
+    try {
+      const url = await uploadVideo(file);
+      if (url) {
+        setFormData((prev) => ({
+          ...prev,
+          onlyFansInfo: {
+            ...prev.onlyFansInfo,
+            videos: url,
+          },
+        }));
+      } else {
+        throw new Error("Upload failed");
+      }
+    } catch (error) {
+      console.error("Upload error:", error);
+      setErrors({ video: "An error occurred while uploading the video." });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleRemoveVideo = () => {
+    setFormData((prev) => ({
+      ...prev,
+      onlyFansInfo: {
+        ...prev.onlyFansInfo,
+        videos: "",
+      },
+    }));
+  };
+
+  // console.log(formData);
+
+  return (
+    <div className="mt-10">
+      <div className=" mt-5 flex items-center justify-between ">
+        <h3 className=" font-medium ">Video</h3>
+        <div
+          onClick={() => setUploadVideoOpen(!uploadVideoOpen)}
+          className=" bg-[#800020] p-2 text-[1.2rem] text-[#fff] rounded-full cursor-pointer transition-all duration-300 ease-in-out "
+        >
+          {uploadVideoOpen ? <FaMinus /> : <FaPlus />}
+        </div>
+      </div>
+
+      {uploadVideoOpen && (
+        <div
+          onClick={() => document.getElementById("videoFile-click")?.click()}
+          className="mt-3 relative w-full flex flex-col items-center justify-center gap-4 border-2 border-[#616161] rounded-md cursor-pointer py-6 px-4"
+        >
+          {loading && <FetchLoading />}
+          <button
+            type="button"
+            className="text-white transition-all duration-300 ease-in-out active:scale-95 text-[2rem] py-1 px-8 rounded-full"
+          >
+            <SlCloudUpload />
+          </button>
+          <div className="text-center text-gray-500">
+            <p>Only one video allowed. Max size 20MB.</p>
+            <p>Accepted formats: MP4, MOV, WebM.</p>
+          </div>
+          <input
+            id="videoFile-click"
+            type="file"
+            accept="video/mp4,video/quicktime,video/webm"
+            className="hidden"
+            onChange={handleVideoUpload}
+          />
+        </div>
+      )}
+
+      {errors.video && (
+        <p className="text-red-500 text-sm mt-2 text-center">{errors.video}</p>
+      )}
+
+      {formData?.onlyFansInfo?.videos && (
+        <div className="relative mt-4 w-[15rem] h-[12rem]">
+          <div className="absolute flex justify-end z-50 bg-black/50 text-[#fff] p-2 right-2 top-2 rounded-full">
+            <button type="button" onClick={handleRemoveVideo}>
+              <RxCross2 className="text-xl" />
+            </button>
+          </div>
+          <video
+            src={formData.onlyFansInfo.videos}
+            controls
+            className="w-full h-full rounded-lg object-cover"
+          />
+        </div>
+      )}
+    </div>
   );
 };
 

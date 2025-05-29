@@ -81,25 +81,6 @@ const HomeSidebar: React.FC<HomeSidebarProps> = ({
     handleIdentityChange(label);
   };
 
-  // const handleAgeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const { name, value } = e.target;
-  //   setFilters((prev) => ({
-  //     ...prev,
-  //     [name]: value,
-  //     page: 1,
-  //   }));
-  // };
-
-  //   const handleAgeChange = (newValues: number[]) => {
-  //   setValues(newValues);
-  //   setFilters((prev) => ({
-  //     ...prev,
-  //     minAge: String(newValues[0]),
-  //     maxAge: String(newValues[1]),
-  //     page: 1,
-  //   }));
-  // };
-
   const nationalities = [
     "Norway",
     "Sweden",
@@ -108,8 +89,6 @@ const HomeSidebar: React.FC<HomeSidebarProps> = ({
     "Iceland",
     "Other",
   ];
-
-  // console.log(values);
 
   return (
     <div

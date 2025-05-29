@@ -34,6 +34,14 @@ const userSchema = new mongoose.Schema(
         type: Number,
         default: 0
       },
+      imgs: {
+        type: [String],
+        default: [] 
+      },
+      videos: {
+        type: String,
+        default: "" 
+      },
     },
     isPlanActive: {
       type: Boolean,

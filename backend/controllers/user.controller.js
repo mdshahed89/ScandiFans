@@ -103,8 +103,8 @@ export const updateUser = async (req, res) => {
     onlyFansInfo,
   } = req.body;
 
-  const defaultProfileImg =
-    "https://res.cloudinary.com/ddlwhkn3b/image/upload/v1748289152/SIDESONE/blank-profile-picture-973460_960_720-removebg-preview_nzqjpg.png";
+  // const defaultProfileImg =
+  //   "https://res.cloudinary.com/ddlwhkn3b/image/upload/v1748289152/SIDESONE/blank-profile-picture-973460_960_720-removebg-preview_nzqjpg.png";
 
   // console.log(onlyFansInfo);
 
@@ -140,7 +140,26 @@ export const updateUser = async (req, res) => {
       ) {
         user.onlyFansInfo.react = Number(onlyFansInfo.react);
       }
+
+      if (
+        onlyFansInfo.imgs !== undefined &&
+        onlyFansInfo.imgs !== null &&
+        Array.isArray(onlyFansInfo.imgs)
+      ) {
+        user.onlyFansInfo.imgs = onlyFansInfo.imgs;
+      }
+
+      if (
+        onlyFansInfo.videos !== undefined &&
+        onlyFansInfo.videos !== null &&
+        typeof onlyFansInfo.videos === "string" &&
+        onlyFansInfo.videos !== ""
+      ) {
+        user.onlyFansInfo.videos = onlyFansInfo.videos;
+      }
     }
+
+    // console.log(onlyFansInfo);
 
     // console.log(profileImg);
 
@@ -173,7 +192,7 @@ export const updateUser = async (req, res) => {
 
     if (typeof age === "number" && !isNaN(age)) user.age = age;
 
-    console.log(age);
+    // console.log(age);
 
     if (
       nationality !== undefined &&
@@ -296,18 +315,11 @@ export const changePassword = async (req, res) => {
 
 export const getUsers = async (req, res) => {
   try {
-    // Pagination
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 20;
     const skip = (page - 1) * limit;
 
-    // Filters
     const filter = {};
-
-    // Nationality (exact match, optional)
-    // if (req.query.nationality && req.query.nationality !== "Annet") {
-    //   filter.nationality = req.query.nationality;
-    // }
 
     const excludedNationalities = [
       "Norway",
@@ -323,32 +335,17 @@ export const getUsers = async (req, res) => {
       filter.nationality = { $nin: excludedNationalities };
     }
 
-    // Identity (multi-select — can be string or array)
-
-    // console.log(req.query.nationality, req.query);
-
     if (req.query.identity) {
       const identities = Array.isArray(req.query.identity)
         ? req.query.identity
         : [req.query.identity];
 
-      // Exclude 'Annet' if present
       const validIdentities = identities.filter((i) => i !== "Other");
 
       if (validIdentities.length > 0) {
         filter.identity = { $in: validIdentities };
       }
     }
-
-    // Age range
-    // const minAge = parseInt(req.query.minAge);
-    // const maxAge = parseInt(req.query.maxAge);
-
-    // if (!isNaN(minAge) || !isNaN(maxAge)) {
-    //   filter.age = {};
-    //   if (!isNaN(minAge)) filter.age.$gte = minAge;
-    //   if (!isNaN(maxAge)) filter.age.$lte = maxAge;
-    // }
 
     const minAgeRaw = req.query.minAge;
     const maxAgeRaw = req.query.maxAge;
@@ -374,14 +371,12 @@ export const getUsers = async (req, res) => {
       ];
     }
 
-    // Count total for pagination
     const totalUsers = await User.countDocuments(filter);
 
-    // Fetch users
     const users = await User.find(filter)
       .skip(skip)
       .limit(limit)
-      .sort({ createdAt: -1 }); // optional: newest first
+      .sort({ createdAt: -1 });
 
     return res.status(200).send({
       success: true,
