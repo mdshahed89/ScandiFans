@@ -159,7 +159,7 @@ export default function Home() {
   return (
     <div>
       <Header />
-      <div className=" bg-[#000000] text-[#fff] min-h-[100vh] pt-[5rem] full-bg pb-[1rem] ">
+      <div className=" bg-gradient-to-tr from-[#000] via-[#000] to-[#470012] text-[#fff] min-h-[100vh] pt-[5rem] full-bg pb-[1rem] ">
         <div className=" max-w-[1400px] mx-auto pt-[4rem] flex gap-10 lg:gap-20 px-3 ">
           <HomeSidebar filters={filters} setFilters={setFilters} isOpen={isOpen} toggleSidebar={toggleSidebar} />
           <div className=" w-full md:w-2/3 relative ">
@@ -264,7 +264,7 @@ const Profiles = ({ users }: ProfilesProps) => {
             </div>
             <div className=" w-full mt-[1rem] ">
               <Link
-                href={`#`}
+                href={`/profile-view/${user._id}`}
                 className=" block w-full py-2 px-2 text-center bg-[#800020] text-[#fff] rounded-full "
               >
                 View Profile

@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import dbConnect from "./utils/dbConnect.js";
 import authRoutes from "./routes/auth.route.js";
 import userRoutes from "./routes/user.route.js";
+import publicRoutes from "./routes/public.route.js"
 import Stripe from "stripe";
 
 const app = express();
@@ -36,6 +37,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/", publicRoutes);
 
 const PORT = process.env.PORT || 7001;
 

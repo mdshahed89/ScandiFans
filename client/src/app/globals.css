@@ -1,14 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Alexandria:wght@100..900&family=Average&family=Exo+2:ital,wght@0,100..900;1,100..900&family=Georama:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Karla:ital,wght@0,200..800;1,200..800&family=Koulen&family=Manrope:wght@200..800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Questrial&family=Raleway:ital,wght@0,100..900;1,100..900&family=Sora:wght@100..800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Alexandria:wght@100..900&family=Average&family=Exo+2:ital,wght@0,100..900;1,100..900&family=Georama:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Karla:ital,wght@0,200..800;1,200..800&family=Koulen&family=Manrope:wght@200..800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Questrial&family=Raleway:ital,wght@0,100..900;1,100..900&family=Sora:wght@100..800&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-
-*{
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
 .full-bg {
@@ -25,12 +24,12 @@
   right: 0;
   bottom: 0;
   left: 0;
-  background-image: url('/BackgroundLogo.png');
+  background-image: url("/BackgroundLogo.png");
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
-  opacity: 0.5;
-  pointer-events: none; 
+  opacity: 0.3;
+  pointer-events: none;
   /* margin-top: 4rem; */
   z-index: 0;
 }
@@ -39,7 +38,6 @@
   position: relative;
   z-index: 1;
 }
-
 
 .ligin-bg {
   position: relative;
@@ -54,12 +52,12 @@
   right: 0;
   bottom: 0;
   left: 0;
-  background-image: url('/LoginBg.jpg');
+  background-image: url("/LoginBg.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   opacity: 0.2;
-  pointer-events: none; 
+  pointer-events: none;
   /* margin-top: 4rem; */
   z-index: 0;
 }
@@ -68,8 +66,6 @@
   position: relative;
   z-index: 1;
 }
-
-
 
 .custom-scrollbar {
   height: 300px;
@@ -94,7 +90,6 @@
   background: #555;
 }
 
-
 /* Override react-slick dot styles */
 .slick-dots li button:before {
   color: #8b8b8b !important; /* Tailwind's gray-400 */
@@ -107,7 +102,6 @@
 .slick-dots li.slick-active button:before {
   color: #fc3265 !important; /* Burgundy */
 }
-
 
 /* Rocket launch animation */
 @keyframes rocketLaunch {
@@ -126,7 +120,6 @@
   animation: rocketLaunch 1.5s ease-in-out infinite;
 }
 
-
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
@@ -135,5 +128,5 @@ input[type="number"]::-webkit-outer-spin-button {
 
 input[type="number"] {
   -moz-appearance: textfield;
-  appearance: textfield; 
+  appearance: textfield;
 }

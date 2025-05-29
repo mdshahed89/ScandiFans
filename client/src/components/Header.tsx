@@ -25,7 +25,7 @@ const Header = () => {
   }
 
   return (
-    <header className=" bg-[#000000] border-b text-[#F4F1ED] border-[#353535] fixed w-full left-0 top-0  z-50  ">
+    <header className=" bg-gradient-to-r from-[#000] to-[#470012] border-b text-[#F4F1ED] border-[#353535] fixed w-full left-0 top-0  z-50  ">
       <div className=" flex items-center w-full max-w-[1400px] mx-auto px-3 ">
         <div className=" border-r border-[#353535] pr-[1rem] md:pr-[2rem] mr-[1rem] md:mr-[2rem] h-full py-3 ">
           <Link href={`/`} className=" text-[2rem] flex items-center ">

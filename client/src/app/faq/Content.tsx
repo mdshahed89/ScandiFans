@@ -34,7 +34,7 @@ const Content: React.FC = () => {
   };
 
   return (
-    <div className=" mt-[6rem] text-[#fff] pb-[2rem] ">
+    <div className="  pt-[8rem] text-[#fff] pb-[2rem] ">
       <div className=" max-w-[1400px] mx-auto px-3 ">
         <div className="  ">
           <div className=" w-full  text-[1.3rem] md:text-[1.5rem] lg:text-[1.6rem] xl:text-[1.8rem] text-[#800020] uppercase font-semibold mt-2 ">

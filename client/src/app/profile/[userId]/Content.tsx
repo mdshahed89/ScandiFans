@@ -79,9 +79,9 @@ const Content = ({ user }: ContentProps) => {
   if (!user) return <p>User not found</p>;
 
   return (
-    <div className=" bg-[#000000] min-h-screen h-full text-[#fff] ">
+    <div className=" bg-gradient-to-tr from-[#000] via-[#000] to-[#470012] min-h-screen h-full text-[#fff] ">
       <div className=" max-w-[1400px] mx-auto h-full px-3 ">
-        <div className=" fixed bg-[#000000] left-0 top-0 w-full border-b border-[#353535] z-50 ">
+        <div className=" fixed bg-gradient-to-r from-[#000] to-[#470012] left-0 top-0 w-full border-b border-[#353535] z-50 ">
           <div className=" max-w-[1400px] px-3 mx-auto h-[5rem] flex items-center justify-between  ">
             <Link href={`/`} className=" text-[2rem] ">
               <Image
