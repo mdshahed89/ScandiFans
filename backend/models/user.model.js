@@ -8,6 +8,8 @@ const userSchema = new mongoose.Schema(
     },
     userName: {
       type: String,
+      unique: true,
+      sparse: true,
     },
     email: {
       type: String,
@@ -79,6 +81,18 @@ const userSchema = new mongoose.Schema(
     react: {
       type: Number,
       default: 0,
+    },
+    reactedUsers: {
+      type: [String],
+    },
+    eyeColor: {
+      type: String,
+    },
+    hairColor: {
+      type: String,
+    },
+    height: {
+      type: String,
     },
   },
   { timestamps: true }

@@ -12,6 +12,7 @@ import { PageLoading } from "@/utils/Loading";
 import { FiVideo } from "react-icons/fi";
 import Logo from "@/assets/Logo.png";
 import KissIcon from "@/assets/KissIcon.png";
+import { useData } from "@/context/Context";
 
 interface ContentProps {
   user: {
@@ -26,6 +27,7 @@ interface ContentProps {
     nationality?: string;
     view?: number;
     react?: number;
+    reactedUsers: string[];
     onlyFansInfo?: {
       video?: number | null;
       img?: number | null;
@@ -37,6 +39,8 @@ interface ContentProps {
 }
 
 const Content = ({ user }: ContentProps) => {
+
+  const {userData} = useData()
   const [isClientReady, setIsClientReady] = useState(false);
 
   useEffect(() => {
@@ -75,7 +79,10 @@ const Content = ({ user }: ContentProps) => {
               >
                 <RiHome9Line className=" text-[1.3rem] " />
               </Link>
-              <SignOutButton />
+              {
+                (userData._id && userData.email) && <SignOutButton /> 
+              }
+              
             </div>
           </div>
         </div>
@@ -92,6 +99,46 @@ const Content = ({ user }: ContentProps) => {
 export default Content;
 
 const AccountManagement = ({ user }: ContentProps) => {
+  const { userData } = useData();
+
+  const incrementProfileReact = async (): Promise<void> => {
+    console.log("clicked");
+
+    const userId = user?._id;
+
+    if (!userId) {
+      console.error("No userId provided");
+      return;
+    }
+
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/${userData._id}/increment-profile-react/${userId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const data: { success?: boolean; message?: string } = await res.json();
+
+      if (res.ok) {
+        console.log("Profile react incremented");
+      } else {
+        console.error(
+          "Failed to increment profile react:",
+          data.message || "Unknown error"
+        );
+      }
+    } catch (error) {
+      console.error("React increment error:", error);
+    }
+  };
+
+  console.log(user);
+
   if (!user) return null;
 
   return (
@@ -113,7 +160,7 @@ const AccountManagement = ({ user }: ContentProps) => {
           <div className=" text-[1.3rem] ">{user.name}</div>
         </div> */}
 
-      <div className=" flex items-center justify-center gap-2 mt-[1rem] ">
+      <div className=" flex items-center justify-center gap-4 mt-[1rem] ">
         <div className=" flex items-center gap-1 ">
           <div className=" text-[1.5rem]  ">
             <AiOutlineEye />
@@ -121,8 +168,27 @@ const AccountManagement = ({ user }: ContentProps) => {
           <span>{user.view}</span>
         </div>
         <div className=" flex items-center gap-1 ">
-          <div className=" text-[1.3rem] ">
-            <FaHeart className=" text-red-500 " />
+          <div
+            onClick={() => {
+              if (userData?.email && userData?._id) {
+                incrementProfileReact();
+              }
+            }}
+            className={` ${
+              (userData && userData.email && userData._id) && "cursor-pointer"
+            } text-[1.3rem] `}
+          >
+            {
+  userData?.email && userData?._id ? (
+    user?.reactedUsers?.includes(userData._id) ? (
+      <FaHeart className="text-red-500" />
+    ) : (
+      <FaRegHeart className="text-red-500" />
+    )
+  ) : (
+    <FaHeart className="text-red-500" />
+  )
+}
           </div>
           <span>{user.react}</span>
         </div>

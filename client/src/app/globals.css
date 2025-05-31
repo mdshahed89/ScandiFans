@@ -18,19 +18,19 @@
 
 .full-bg::before {
   content: "";
-  position: absolute;
+  position: fixed;
   height: 100vh;
-  top: 5%;
+  top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  background-image: url("/BackgroundLogo.png");
+  background-image: url("/LogoBg1.png");
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
+  width: 100%;
   opacity: 0.3;
   pointer-events: none;
-  /* margin-top: 4rem; */
   z-index: 0;
 }
 
@@ -67,40 +67,24 @@
   z-index: 1;
 }
 
-.custom-scrollbar {
+/* .custom-scrollbar {
   height: 300px;
   overflow-y: scroll;
-}
+} */
 
-/* WebKit scrollbar styles */
-.custom-scrollbar::-webkit-scrollbar {
-  width: 5px;
-}
 
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: #9c9c9c;
-}
 
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: #4d4d4d;
-  border-radius: 10px;
-}
 
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
-
-/* Override react-slick dot styles */
 .slick-dots li button:before {
-  color: #8b8b8b !important; /* Tailwind's gray-400 */
-  opacity: 1 !important; /* Make sure it's visible */
+  color: #8b8b8b !important; 
+  opacity: 1 !important; 
   font-size: 10px !important;
   margin-top: 1rem;
   width: 2rem;
 }
 
 .slick-dots li.slick-active button:before {
-  color: #fc3265 !important; /* Burgundy */
+  color: #fc3265 !important; 
 }
 
 /* Rocket launch animation */
@@ -133,16 +117,15 @@ input[type="number"] {
 
 
 .scrollbar-hidden {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; 
+  scrollbar-width: none; 
 }
 
 .scrollbar-hidden::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
+  display: none; 
 }
 
 
-/* Custom Scrollbar for entire site */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -160,8 +143,25 @@ input[type="number"] {
   background: #555;
 }
 
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px !important;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #000 !important;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #3f3f3f !important;
+  border-radius: 10px !important;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #000000 !important;
+}
+
 /* For Firefox */
-body {
+/* body {
   scrollbar-width: thin;
   scrollbar-color: #888 #f1f1f1;
-}
+} */

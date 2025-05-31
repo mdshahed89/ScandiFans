@@ -987,7 +987,7 @@ const Form: React.FC<MakePaymentProps> = ({ planDuration, planPrice }) => {
             <div className="flex items-center justify-center w-full h-full transition-all duration-300 ease-in-out">
               {isLoading ? (
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-5 h-5 border-2 border-[#000] border-t-transparent rounded-full animate-spin" />
+                  <div className="w-5 h-5 border-2 border-[#fff] border-t-transparent rounded-full animate-spin" />
                 </div>
               ) : success ? (
                 <div className="flex items-center justify-center gap-2 text-green-500 ">

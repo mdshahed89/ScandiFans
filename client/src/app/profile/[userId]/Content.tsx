@@ -29,6 +29,9 @@ interface UserType {
   identity?: string;
   age?: number;
   nationality?: string;
+  eyeColor?: string;
+  hairColor?: string;
+  height?: string;
   view?: number;
   react?: number;
   isPlanActive: boolean;
@@ -57,6 +60,9 @@ const Content = ({ user }: ContentProps) => {
     identity: user?.identity || "Select Identity",
     age: user?.age || null,
     nationality: user?.nationality || "Select Nationality",
+    eyeColor: user?.eyeColor || "Select Color",
+    hairColor: user?.hairColor || "Select Color",
+    height: user?.height || "Select Height",
     view: user?.view || 0,
     react: user?.react || 0,
     remainingDays: user?.remainingDays || 0,
@@ -138,6 +144,9 @@ type FormDataType = {
   identity: string;
   age: number | null;
   nationality: string;
+  eyeColor: string;
+  hairColor: string;
+  height: string;
   view: number;
   react: number;
   remainingDays: number;
@@ -681,6 +690,12 @@ const AccountInformation: React.FC<AccountInformationProps> = ({
       payload.identity = formData.identity;
     if (formData.nationality && formData.nationality !== "Select Nationality")
       payload.nationality = formData.nationality;
+    if (formData.eyeColor && formData.eyeColor !== "Select Color")
+      payload.eyeColor = formData.eyeColor;
+    if (formData.hairColor && formData.hairColor !== "Select Color")
+      payload.hairColor = formData.hairColor;
+    if (formData.height && formData.height !== "Select Height")
+      payload.height = formData.height;
 
     if (typeof formData.age === "number" && !isNaN(formData.age)) {
       payload.age = formData.age;
@@ -941,6 +956,31 @@ const AccountInformation: React.FC<AccountInformationProps> = ({
             setFormData={setFormData}
             // setIsChanged={setIsChanged}
           />
+        </div>
+
+        <div className=" flex gap-2 w-full ">
+          <EyeColorSelector
+            formData={formData}
+            setFormData={setFormData}
+            // setIsChanged={setIsChanged}
+          />
+          <HairColorSelector
+            formData={formData}
+            setFormData={setFormData}
+            // setIsChanged={setIsChanged}
+          />
+        </div>
+        <div className=" flex gap-2 w-full ">
+          <HeightSelector
+            formData={formData}
+            setFormData={setFormData}
+            // setIsChanged={setIsChanged}
+          />
+          {/* <HairColorSelector
+            formData={formData}
+            setFormData={setFormData}
+            // setIsChanged={setIsChanged}
+          /> */}
         </div>
 
         <div className=" flex justify-end ">
@@ -1295,223 +1335,21 @@ const OnlyFansVideo: React.FC<AccountInformationProps> = ({
 interface SelectorProps {
   formData: FormDataType;
   setFormData: React.Dispatch<React.SetStateAction<FormDataType>>;
-  // setIsChanged: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const CountrySelector: React.FC<SelectorProps> = ({
   formData,
   setFormData,
-  // setIsChanged,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const countryRef = useRef<HTMLDivElement | null>(null);
 
-  // const handleChange = (
-  //   e: React.ChangeEvent<
-  //     HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-  //   >
-  // ) => {
-  //   setFormData({
-  //     ...formData,
-  //     [e.target.name]: e.target.value,
-  //   });
-  // };
-
   const countries = [
-    { name: "Afghanistan", code: "AF" },
-    { name: "Albania", code: "AL" },
-    { name: "Algeria", code: "DZ" },
-    { name: "Andorra", code: "AD" },
-    { name: "Angola", code: "AO" },
-    { name: "Antigua and Barbuda", code: "AG" },
-    { name: "Argentina", code: "AR" },
-    { name: "Armenia", code: "AM" },
-    { name: "Australia", code: "AU" },
-    { name: "Austria", code: "AT" },
-    { name: "Azerbaijan", code: "AZ" },
-    { name: "Bahamas", code: "BS" },
-    { name: "Bahrain", code: "BH" },
-    { name: "Bangladesh", code: "BD" },
-    { name: "Barbados", code: "BB" },
-    { name: "Belarus", code: "BY" },
-    { name: "Belgium", code: "BE" },
-    { name: "Belize", code: "BZ" },
-    { name: "Benin", code: "BJ" },
-    { name: "Bhutan", code: "BT" },
-    { name: "Bolivia", code: "BO" },
-    { name: "Bosnia and Herzegovina", code: "BA" },
-    { name: "Botswana", code: "BW" },
-    { name: "Brazil", code: "BR" },
-    { name: "Brunei", code: "BN" },
-    { name: "Bulgaria", code: "BG" },
-    { name: "Burkina Faso", code: "BF" },
-    { name: "Burundi", code: "BI" },
-    { name: "Cabo Verde", code: "CV" },
-    { name: "Cambodia", code: "KH" },
-    { name: "Cameroon", code: "CM" },
-    { name: "Canada", code: "CA" },
-    { name: "Central African Republic", code: "CF" },
-    { name: "Chad", code: "TD" },
-    { name: "Chile", code: "CL" },
-    { name: "China", code: "CN" },
-    { name: "Colombia", code: "CO" },
-    { name: "Comoros", code: "KM" },
-    { name: "Congo (Congo-Brazzaville)", code: "CG" },
-    { name: "Costa Rica", code: "CR" },
-    { name: "Croatia", code: "HR" },
-    { name: "Cuba", code: "CU" },
-    { name: "Cyprus", code: "CY" },
-    { name: "Czech Republic", code: "CZ" },
-    { name: "Democratic Republic of the Congo", code: "CD" },
-    { name: "Denmark", code: "DK" },
-    { name: "Djibouti", code: "DJ" },
-    { name: "Dominica", code: "DM" },
-    { name: "Dominican Republic", code: "DO" },
-    { name: "Ecuador", code: "EC" },
-    { name: "Egypt", code: "EG" },
-    { name: "El Salvador", code: "SV" },
-    { name: "Equatorial Guinea", code: "GQ" },
-    { name: "Eritrea", code: "ER" },
-    { name: "Estonia", code: "EE" },
-    { name: "Eswatini", code: "SZ" },
-    { name: "Ethiopia", code: "ET" },
-    { name: "Fiji", code: "FJ" },
-    { name: "Finland", code: "FI" },
-    { name: "France", code: "FR" },
-    { name: "Gabon", code: "GA" },
-    { name: "Gambia", code: "GM" },
-    { name: "Georgia", code: "GE" },
-    { name: "Germany", code: "DE" },
-    { name: "Ghana", code: "GH" },
-    { name: "Greece", code: "GR" },
-    { name: "Grenada", code: "GD" },
-    { name: "Guatemala", code: "GT" },
-    { name: "Guinea", code: "GN" },
-    { name: "Guinea-Bissau", code: "GW" },
-    { name: "Guyana", code: "GY" },
-    { name: "Haiti", code: "HT" },
-    { name: "Honduras", code: "HN" },
-    { name: "Hungary", code: "HU" },
-    { name: "Iceland", code: "IS" },
-    { name: "India", code: "IN" },
-    { name: "Indonesia", code: "ID" },
-    { name: "Iran", code: "IR" },
-    { name: "Iraq", code: "IQ" },
-    { name: "Ireland", code: "IE" },
-    { name: "Israel", code: "IL" },
-    { name: "Italy", code: "IT" },
-    { name: "Jamaica", code: "JM" },
-    { name: "Japan", code: "JP" },
-    { name: "Jordan", code: "JO" },
-    { name: "Kazakhstan", code: "KZ" },
-    { name: "Kenya", code: "KE" },
-    { name: "Kiribati", code: "KI" },
-    { name: "Kuwait", code: "KW" },
-    { name: "Kyrgyzstan", code: "KG" },
-    { name: "Laos", code: "LA" },
-    { name: "Latvia", code: "LV" },
-    { name: "Lebanon", code: "LB" },
-    { name: "Lesotho", code: "LS" },
-    { name: "Liberia", code: "LR" },
-    { name: "Libya", code: "LY" },
-    { name: "Liechtenstein", code: "LI" },
-    { name: "Lithuania", code: "LT" },
-    { name: "Luxembourg", code: "LU" },
-    { name: "Madagascar", code: "MG" },
-    { name: "Malawi", code: "MW" },
-    { name: "Malaysia", code: "MY" },
-    { name: "Maldives", code: "MV" },
-    { name: "Mali", code: "ML" },
-    { name: "Malta", code: "MT" },
-    { name: "Marshall Islands", code: "MH" },
-    { name: "Mauritania", code: "MR" },
-    { name: "Mauritius", code: "MU" },
-    { name: "Mexico", code: "MX" },
-    { name: "Micronesia", code: "FM" },
-    { name: "Moldova", code: "MD" },
-    { name: "Monaco", code: "MC" },
-    { name: "Mongolia", code: "MN" },
-    { name: "Montenegro", code: "ME" },
-    { name: "Morocco", code: "MA" },
-    { name: "Mozambique", code: "MZ" },
-    { name: "Myanmar", code: "MM" },
-    { name: "Namibia", code: "NA" },
-    { name: "Nauru", code: "NR" },
-    { name: "Nepal", code: "NP" },
-    { name: "Netherlands", code: "NL" },
-    { name: "New Zealand", code: "NZ" },
-    { name: "Nicaragua", code: "NI" },
-    { name: "Niger", code: "NE" },
-    { name: "Nigeria", code: "NG" },
-    { name: "North Korea", code: "KP" },
-    { name: "North Macedonia", code: "MK" },
     { name: "Norway", code: "NO" },
-    { name: "Oman", code: "OM" },
-    { name: "Pakistan", code: "PK" },
-    { name: "Palau", code: "PW" },
-    { name: "Palestine State", code: "PS" },
-    { name: "Panama", code: "PA" },
-    { name: "Papua New Guinea", code: "PG" },
-    { name: "Paraguay", code: "PY" },
-    { name: "Peru", code: "PE" },
-    { name: "Philippines", code: "PH" },
-    { name: "Poland", code: "PL" },
-    { name: "Portugal", code: "PT" },
-    { name: "Qatar", code: "QA" },
-    { name: "Romania", code: "RO" },
-    { name: "Russia", code: "RU" },
-    { name: "Rwanda", code: "RW" },
-    { name: "Saint Kitts and Nevis", code: "KN" },
-    { name: "Saint Lucia", code: "LC" },
-    { name: "Saint Vincent and the Grenadines", code: "VC" },
-    { name: "Samoa", code: "WS" },
-    { name: "San Marino", code: "SM" },
-    { name: "Sao Tome and Principe", code: "ST" },
-    { name: "Saudi Arabia", code: "SA" },
-    { name: "Senegal", code: "SN" },
-    { name: "Serbia", code: "RS" },
-    { name: "Seychelles", code: "SC" },
-    { name: "Sierra Leone", code: "SL" },
-    { name: "Singapore", code: "SG" },
-    { name: "Slovakia", code: "SK" },
-    { name: "Slovenia", code: "SI" },
-    { name: "Solomon Islands", code: "SB" },
-    { name: "Somalia", code: "SO" },
-    { name: "South Africa", code: "ZA" },
-    { name: "South Korea", code: "KR" },
-    { name: "South Sudan", code: "SS" },
-    { name: "Spain", code: "ES" },
-    { name: "Sri Lanka", code: "LK" },
-    { name: "Sudan", code: "SD" },
-    { name: "Suriname", code: "SR" },
     { name: "Sweden", code: "SE" },
-    { name: "Switzerland", code: "CH" },
-    { name: "Syria", code: "SY" },
-    { name: "Tajikistan", code: "TJ" },
-    { name: "Tanzania", code: "TZ" },
-    { name: "Thailand", code: "TH" },
-    { name: "Timor-Leste", code: "TL" },
-    { name: "Togo", code: "TG" },
-    { name: "Tonga", code: "TO" },
-    { name: "Trinidad and Tobago", code: "TT" },
-    { name: "Tunisia", code: "TN" },
-    { name: "Turkey", code: "TR" },
-    { name: "Turkmenistan", code: "TM" },
-    { name: "Tuvalu", code: "TV" },
-    { name: "Uganda", code: "UG" },
-    { name: "Ukraine", code: "UA" },
-    { name: "United Arab Emirates", code: "AE" },
-    { name: "United Kingdom", code: "GB" },
-    { name: "United States", code: "US" },
-    { name: "Uruguay", code: "UY" },
-    { name: "Uzbekistan", code: "UZ" },
-    { name: "Vanuatu", code: "VU" },
-    { name: "Vatican City", code: "VA" },
-    { name: "Venezuela", code: "VE" },
-    { name: "Vietnam", code: "VN" },
-    { name: "Yemen", code: "YE" },
-    { name: "Zambia", code: "ZM" },
-    { name: "Zimbabwe", code: "ZW" },
+    { name: "Denmark", code: "DK" },
+    { name: "Finland", code: "FI" },
+    { name: "Iceland", code: "IS" },
   ];
 
   useEffect(() => {
@@ -1549,11 +1387,11 @@ const CountrySelector: React.FC<SelectorProps> = ({
             />
           </div>
           {isOpen && (
-            <ul className="absolute w-full border-2 border-gray-700 rounded-lg mt-2 shadow-lg z-10 bg-gray-700 max-h-[10rem] overflow-y-auto custom-scrollbar ">
+            <ul className="absolute w-full border-2 border-gray-400 rounded-lg mt-2 shadow-lg z-10 bg-[#000] max-h-[10rem] overflow-y-auto custom-scrollbar ">
               {countries.map((country, idx) => (
                 <li
                   key={idx}
-                  className="px-4 py-2 hover:bg-gray-800 cursor-pointer rounded-md "
+                  className="px-4 py-2 hover:bg-[#131313] cursor-pointer rounded-md "
                   onClick={() => {
                     setFormData({
                       ...formData,
@@ -1645,6 +1483,233 @@ const IdentitySelector: React.FC<SelectorProps> = ({
                   }}
                 >
                   {idnt}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const EyeColorSelector: React.FC<SelectorProps> = ({
+  formData,
+  setFormData,
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const ref = useRef<HTMLDivElement | null>(null);
+
+  const eyeColors: string[] = [
+    "Black",
+    "Brown",
+    "Hazel",
+    "Amber",
+    "Blue",
+    "Gray",
+    "Green",
+    "Other",
+  ];
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  return (
+    <div className=" space-y-2 w-full ">
+      <label htmlFor="" className=" text-gray-200 ">
+        Eye Color
+      </label>
+      <div className=" border-2 border-[#800020] rounded-md ">
+        <div className=" relative text-center " ref={ref}>
+          <div
+            className="w-full px-3 py-2 cursor-pointer flex items-center justify-between gap-3 text-[#d1d1d1] "
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            <span>{formData.eyeColor}</span>
+            <IoIosArrowDown
+              className={` ${
+                isOpen ? "rotate-180" : ""
+              } transition-all duration-300 ease-in-out text-[1.1rem] `}
+            />
+          </div>
+          {isOpen && (
+            <ul className="absolute w-full border-2 border-gray-400 rounded-lg mt-2 shadow-lg z-10 bg-[#000] max-h-[10rem] overflow-y-auto custom-scrollbar ">
+              {eyeColors.map((color, idx) => (
+                <li
+                  key={idx}
+                  className="px-4 py-2 hover:bg-[#131313] cursor-pointer rounded-md "
+                  onClick={() => {
+                    setFormData({
+                      ...formData,
+                      eyeColor: color,
+                      // countryCode: country.code,
+                    });
+                    setIsOpen(false);
+                    // setIsChanged(true);
+                  }}
+                >
+                  {color}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const HairColorSelector: React.FC<SelectorProps> = ({
+  formData,
+  setFormData,
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const ref = useRef<HTMLDivElement | null>(null);
+
+  const hairColors: string[] = [
+    "Black",
+    "Dark Brown",
+    "Light Brown",
+    "Blonde",
+    "Red",
+    "Gray",
+    "White",
+    "Dyed / Colored",
+    "Bald / No Hair",
+    "Other",
+  ];
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  return (
+    <div className=" space-y-2 w-full ">
+      <label htmlFor="" className=" text-gray-200 ">
+        Hair Color
+      </label>
+      <div className=" border-2 border-[#800020] rounded-md ">
+        <div className=" relative text-center " ref={ref}>
+          <div
+            className="w-full px-3 py-2 cursor-pointer flex items-center justify-between gap-3 text-[#d1d1d1] "
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            <span>{formData.hairColor}</span>
+            <IoIosArrowDown
+              className={` ${
+                isOpen ? "rotate-180" : ""
+              } transition-all duration-300 ease-in-out text-[1.1rem] `}
+            />
+          </div>
+          {isOpen && (
+            <ul className="absolute w-full border-2 border-gray-400 rounded-lg mt-2 shadow-lg z-10 bg-[#000] max-h-[10rem] overflow-y-auto custom-scrollbar ">
+              {hairColors.map((color, idx) => (
+                <li
+                  key={idx}
+                  className="px-4 py-2 hover:bg-[#131313] cursor-pointer rounded-md "
+                  onClick={() => {
+                    setFormData({
+                      ...formData,
+                      hairColor: color,
+                      // countryCode: country.code,
+                    });
+                    setIsOpen(false);
+                    // setIsChanged(true);
+                  }}
+                >
+                  {color}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const HeightSelector: React.FC<SelectorProps> = ({ formData, setFormData }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const ref = useRef<HTMLDivElement | null>(null);
+
+  const heights: string[] = [
+    "Under 4'10\"",
+    "4'10\" - 5'0\"",
+    "5'1\" - 5'3\"",
+    "5'4\" - 5'6\"",
+    "5'7\" - 5'9\"",
+    "5'10\" - 6'0\"",
+    "6'1\" - 6'3\"",
+    "Above 6'3\"",
+  ];
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  return (
+    <div className=" space-y-2 w-full ">
+      <label htmlFor="" className=" text-gray-200 ">
+        Height
+      </label>
+      <div className=" border-2 border-[#800020] rounded-md ">
+        <div className=" relative text-center " ref={ref}>
+          <div
+            className="w-full px-3 py-2 cursor-pointer flex items-center justify-between gap-3 text-[#d1d1d1] "
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            <span>{formData.height}</span>
+            <IoIosArrowDown
+              className={` ${
+                isOpen ? "rotate-180" : ""
+              } transition-all duration-300 ease-in-out text-[1.1rem] `}
+            />
+          </div>
+          {isOpen && (
+            <ul className="absolute w-full border-2 border-gray-400 rounded-lg mt-2 shadow-lg z-10 bg-[#000] max-h-[10rem] overflow-y-auto custom-scrollbar ">
+              {heights.map((height, idx) => (
+                <li
+                  key={idx}
+                  className="px-4 py-2 hover:bg-[#131313] cursor-pointer rounded-md "
+                  onClick={() => {
+                    setFormData({
+                      ...formData,
+                      height: height,
+                      // countryCode: country.code,
+                    });
+                    setIsOpen(false);
+                    // setIsChanged(true);
+                  }}
+                >
+                  {height}
                 </li>
               ))}
             </ul>

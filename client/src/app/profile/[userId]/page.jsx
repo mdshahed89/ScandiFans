@@ -10,7 +10,7 @@ const getUser = async (userId) => {
   );
 
   if (!res.ok) {
-    console.error("Failed to fetch user");
+    console.error("Failed to fetch user", res);
     return null;
   }
 

@@ -56,10 +56,16 @@ export const loginUser = async (req, res) => {
 export const getCurrentUser = async (req, res) => {
   const { userId } = req.params;
 
+  // console.log("hello");
+  
+
   try {
     const user = await User.findById(userId).select(
       "-password -paymentIntentId"
     );
+
+    // console.log(userId);
+    
 
     if (!user) {
       return res.status(404).send({ error: "User not found" });

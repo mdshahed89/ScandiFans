@@ -102,6 +102,9 @@ export const updateUser = async (req, res) => {
     identity,
     age,
     nationality,
+    eyeColor,
+    hairColor,
+    height,
     onlyFansInfo,
   } = req.body;
 
@@ -203,6 +206,30 @@ export const updateUser = async (req, res) => {
       nationality !== "Select Nationality"
     )
       user.nationality = nationality;
+
+    if (
+      eyeColor !== undefined &&
+      eyeColor !== null &&
+      eyeColor !== "" &&
+      eyeColor !== "Select Color"
+    )
+      user.eyeColor = eyeColor;
+
+    if (
+      hairColor !== undefined &&
+      hairColor !== null &&
+      hairColor !== "" &&
+      hairColor !== "Select Color"
+    )
+      user.hairColor = hairColor;
+
+    if (
+      height !== undefined &&
+      height !== null &&
+      height !== "" &&
+      height !== "Select Height"
+    )
+      user.height = height;
 
     await user.save();
 
@@ -389,15 +416,56 @@ export const getUsers = async (req, res) => {
       });
     }
 
-    console.log(req.query);
-    
+    if (req.query.eyeColors) {
+      const colors = Array.isArray(req.query.eyeColors)
+        ? req.query.eyeColors
+        : [req.query.eyeColors];
+      filter.eyeColor = { $in: colors };
+    }
+
+    // Hair Color (include "Other" if selected)
+    if (req.query.hairColors) {
+      const hairs = Array.isArray(req.query.hairColors)
+        ? req.query.hairColors
+        : [req.query.hairColors];
+      filter.hairColor = { $in: hairs };
+    }
+
+    // Height (include "Other" if selected)
+    if (req.query.heights) {
+      const heights = Array.isArray(req.query.heights)
+        ? req.query.heights
+        : [req.query.heights];
+      filter.height = { $in: heights };
+    }
 
     const totalUsers = await User.countDocuments(filter);
 
-    const users = await User.find(filter)
-      .skip(skip)
-      .limit(limit)
-      .sort({ isPlanActive: -1, createdAt: -1 });
+    let users = [];
+
+    if (req.query.sortBy === "Most Popular Today") {
+      users = await User.find(filter)
+        .skip(skip)
+        .limit(limit)
+        .sort({ view: -1, react: -1 });
+    } else {
+      let sortQuery = { isPlanActive: -1, createdAt: -1 };
+
+      if (req.query.sortBy === "Newest Profile") {
+        sortQuery = { createdAt: -1 };
+      } else if (req.query.sortBy === "Oldest Profiles") {
+        sortQuery = { createdAt: 1 };
+      }
+
+      users = await User.find(filter).skip(skip).limit(limit).sort(sortQuery);
+    }
+
+    // console.log(req.query);
+
+    // const users = await User.find(filter)
+    //   .skip(skip)
+    //   .limit(limit)
+    //   .sort({ isPlanActive: -1, createdAt: -1 });
 
     return res.status(200).send({
       success: true,
