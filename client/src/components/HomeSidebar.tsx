@@ -319,16 +319,12 @@ const EyeColorSelector: React.FC<SelectorProps> = ({ filters, setFilters }) => {
           >
             <ul className="w-full rounded-lg mt-2 pb-1 overflow-hidden *:cursor-pointer pr-2">
               {eyeColors.map((color, idx) => {
-                const isChecked = filters.eyeColors.includes(color);
                 return (
                   <li
                     key={idx}
                     className="flex items-center gap-2 justify-between py-2 cursor-pointer rounded-md transition-all duration-300"
                     onClick={() => toggleColor(color)}
                   >
-                    {/* <span className="w-5 h-5 border border-gray-300 rounded-sm flex items-center justify-center p-[1px]">
-                      {isChecked && <GiCheckMark />}
-                    </span> */}
                     <span className=" text-[1.2rem] text-[#cac8c6] ">
                       {color}
                     </span>
@@ -470,11 +466,7 @@ const HairColorSelector: React.FC<SelectorProps> = ({
   );
 };
 
-
-const HeightSelector: React.FC<SelectorProps> = ({
-  filters,
-  setFilters,
-}) => {
+const HeightSelector: React.FC<SelectorProps> = ({ filters, setFilters }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [toggles, setToggles] = useState<Record<string, boolean>>({});
   const ref = useRef<HTMLDivElement | null>(null);

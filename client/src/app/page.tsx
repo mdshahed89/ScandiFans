@@ -61,7 +61,6 @@ type Filters = {
 
 export default function Home() {
   const [optionsOpen, setOptionsOpen] = useState(false);
-  const [selectedSort, setSelectedSort] = useState("Sory by");
   const sortOptions = [
     "Most Popular Today",
     "Newest Profile",
@@ -107,39 +106,7 @@ export default function Home() {
     fetchUsers();
   }, [filters]);
 
-  // const fetchUsers = async () => {
-  //   try {
-  //     const params: any = { ...filters };
-  //     if (!params.nationality) delete params.nationality;
-  //     if (!params.identity || params.identity.length === 0) delete params.identity;
-  //     if (!params.minAge) delete params.minAge;
-  //     if (!params.maxAge) delete params.maxAge;
-
-  //     console.log(params);
-
-  //     const res = await axios.get<ApiResponse>(
-  //       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/users`,
-  //       {
-  //         params,
-  //       }
-  //     );
-
-  //     setUsers(res.data.data);
-  //     setTotalPages(res.data.totalPages);
-  //   } catch (error) {
-  //     console.error("Error fetching users:", error);
-  //   }
-  // };
-
-  // const handleIdentityChange = (value: string) => {
-  //   setFilters((prev) => {
-  //     const updated = prev.identity.includes(value)
-  //       ? prev.identity.filter((v) => v !== value)
-  //       : [...prev.identity, value];
-  //     return { ...prev, identity: updated, page: 1 };
-  //   });
-  // };
-
+  
   const fetchUsers = async () => {
     try {
       setFetching(true);
@@ -243,7 +210,6 @@ export default function Home() {
                         key={option}
                         className="px-4 py-2 hover:bg-gray-900 cursor-pointer rounded-md "
                         onClick={() => {
-                          setSelectedSort(option);
                           setFilters({
                             ...filters,
                             sortBy: option,
@@ -273,6 +239,7 @@ type ProfilesProps = {
 };
 
 const Profiles = ({ users }: ProfilesProps) => {
+
   const incrementProfileView = async (userId: string): Promise<void> => {
     if (!userId) {
       console.log("No userId provided");
@@ -290,7 +257,7 @@ const Profiles = ({ users }: ProfilesProps) => {
         }
       );
 
-      const data = await res.json();
+      // const data = await res.json();
 
       // console.log(data);
 
